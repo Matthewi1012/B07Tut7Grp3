@@ -7,8 +7,7 @@ import com.example.b07tut7grp3.User;
 public final class Admin extends User{
     // A singleton Admin class
     private static Admin admin;
-    protected String email;
-    protected String username;
+
     private utscCourseModifier courseMod;
     private Admin() throws ExceptionMessage {
         // Admin constructor here

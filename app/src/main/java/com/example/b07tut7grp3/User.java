@@ -1,17 +1,24 @@
 package com.example.b07tut7grp3;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class User {
+    protected String email;
+    protected String username;
     public List<Course> getCourseList(){
         DatabaseReference dbref = FirebaseDatabase.getInstance()
                 .getReference().getRoot().child("Courses");
         List<Course> courses = new ArrayList<>();
-        dbref.get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
+        dbref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
                 for(DataSnapshot d : task.getResult().getChildren()){
                     try {
                         courses.add(new utscCourse(d, d.getKey()));
@@ -23,4 +30,6 @@ public class User {
         });
         return courses;
     }
+    public String getEmail(){ return email; }
+    public String getUsername(){ return username; }
 }

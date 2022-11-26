@@ -1,5 +1,8 @@
 package com.example.admintools;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.example.b07tut7grp3.*;
 import com.google.firebase.database.*;
 
@@ -32,7 +35,13 @@ public final class utscCourseModifier extends utscCourse {
         }
         detailsMap.put("Semester", semester);
         courseMap.put(course.getCourseId(), detailsMap);
-        dbref.setValue(courseMap);
+        dbref.setValue(courseMap, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                MessageSystem message = new MessageSystem("Successfully uploaded course.");
+                message.successMessage();
+            }
+        });
     }
     public void setCourseID(String id){
         // TODO: implement add/change course id
