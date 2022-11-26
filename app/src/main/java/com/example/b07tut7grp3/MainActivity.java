@@ -6,27 +6,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.admintools.Admin_Login;
 
 public class MainActivity extends AppCompatActivity {
-    Button AdminLoginButton;
 
+    TextView createnewAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        createnewAccount=findViewById(R.id.createnewAccount);
 
-        AdminLoginButton = findViewById(R.id.button);
-        AdminLoginButton.setOnClickListener(new View.OnClickListener(){
-
+        createnewAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), Admin_Login.class));
+                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
             }
         });
-
 
     }
 }
