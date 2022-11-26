@@ -56,6 +56,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        adminLogin=findViewById(R.id.adminLogin);
+
+        adminLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, Admin_Login.class));
+                //Admin_login
+            }
+        });
+        //this is the onClickListener to connect to admin login. Please remember to implement Admin_Login.
+
         LoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,8 +112,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendUserToNextActivity() {
-        Intent intent=new Intent(MainActivity.this, Student_home_activity.class);
-        //change "Student_home_activity" to the right name for student home page and keep the ".class"!!
+        Intent intent=new Intent(MainActivity.this, StudentActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
