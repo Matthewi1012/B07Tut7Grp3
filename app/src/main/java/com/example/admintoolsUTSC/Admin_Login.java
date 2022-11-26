@@ -1,4 +1,4 @@
-package com.example.admintools;
+package com.example.admintoolsUTSC;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

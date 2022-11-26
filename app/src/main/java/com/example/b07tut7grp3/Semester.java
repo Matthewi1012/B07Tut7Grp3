@@ -1,9 +1,13 @@
 package com.example.b07tut7grp3;
 
-import androidx.annotation.NonNull;
-
 @SuppressWarnings("unused")
+/**
+ * An enumeration of possible semesters
+ * @author Kevin Li
+ * @since 0.1
+ */
 public enum Semester {
+
     FALL("Fall"),
     WINTER("Winter"),
     SUMMER("Summer");

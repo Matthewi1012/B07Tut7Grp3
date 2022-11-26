@@ -9,9 +9,20 @@ import com.google.firebase.database.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A user module, contains email and username data
+ * as well as a module to obtain a list of courses
+ * @author Kevin Li
+ * @since 0.1
+ */
 public class User {
     protected String email;
     protected String username;
+
+    /**
+     * A method to pull a list of courses from the database
+     * @return a list of courses pulled from the database
+     */
     public List<Course> getCourseList(){
         DatabaseReference dbref = FirebaseDatabase.getInstance()
                 .getReference().getRoot().child("Courses");

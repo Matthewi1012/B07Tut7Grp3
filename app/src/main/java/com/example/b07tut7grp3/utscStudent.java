@@ -13,23 +13,46 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * A class for UTSC student users, inherits methods from Student
+ * @author Kevin Li
+ * @since 0.1
+ */
 public class utscStudent extends Student{
     protected Subject currentPOSt;
+
+    /**
+     * A class constructor for creating a new UTSC student
+     * Will also add the student's data to the database
+     * @param firstName the student's first name
+     * @param lastName the student's last name
+     * @param coursesTaken the courses taken by the student
+     * @param currentYear the student's current year
+     * @param post the student's current program of study
+     * @param email the student's email
+     * @param username the student's username
+     */
     public utscStudent(String firstName, String lastName, List<String> coursesTaken,
-                   int currentYear, String currentSchool, Subject post,
+                   int currentYear, Subject post,
                        String email, String username){
         this.firstName = firstName;
         this.lastName = lastName;
         this.coursesTaken = coursesTaken;
         this.plannedCourses = new ArrayList<>();
         this.currentYear = currentYear;
-        this.currentSchool = currentSchool;
+        this.currentSchool = "UTSC";
         currentPOSt = post;
         this.email = email;
         this.username = username;
+        uploadData();
     }
+
+    /**
+     * A constructor for retrieving student information from the database
+     * @param dbref a DataSnapshot pointing to the student's data
+     * @throws ExceptionMessage if the data cannot be found, or if some fields are missing
+     */
     public utscStudent(DataSnapshot dbref) throws ExceptionMessage {
-        //Gets an existing student
         /*
         To whoever uses this function
         Add the following code:
@@ -65,7 +88,8 @@ public class utscStudent extends Student{
             this.plannedCourses = plannedCourses;
         }
         catch(NullPointerException e){
-            throw new ExceptionMessage("Could not find data!" + e.getMessage());
+            throw new ExceptionMessage("Could not find data, please contact an administrator!"
+                    + e.getMessage());
         }
     }
     private void uploadData(){
@@ -88,12 +112,19 @@ public class utscStudent extends Student{
         userMap.put(username, detailsMap);
         dbref.setValue(userMap, new DatabaseReference.CompletionListener() {
             @Override
-            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+            public void onComplete(@Nullable DatabaseError error,
+                                   @NonNull DatabaseReference ref) {
                 MessageSystem message = new MessageSystem("Successfully uploaded data");
                 message.successMessage();
             }
         });
     }
+
+    /**
+     * An implementation of the updateCourses abstract method, updates the plannedCourses
+     * and coursesTaken fields
+     * @param dbref a DatabaseReference to Root/Users/Students
+     */
     @Override
     protected void updateCourses(DatabaseReference dbref){
         dbref = dbref.child("utscStudents").child(username);
@@ -108,6 +139,11 @@ public class utscStudent extends Student{
         MessageSystem success = new MessageSystem("added course successfully!");
         success.successMessage();
     }
+
+    /**
+     * returns the number of credits earned according to UofT calculations
+     * @return total number of credits earned
+     */
     @Override
     public double getCreditsEarned() {
         return coursesTaken.size() * 0.5;

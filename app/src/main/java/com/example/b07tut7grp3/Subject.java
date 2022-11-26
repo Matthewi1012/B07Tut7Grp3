@@ -1,6 +1,11 @@
 package com.example.b07tut7grp3;
 
 @SuppressWarnings("unused")
+/**
+ * An enumeration of all possible subjects at UTSC
+ * @author Kevin Li
+ * @since 0.1
+ */
 public enum Subject{
     AFRICAN_STUDIES("African Studies"),
     ANTHROPOLOGY("Anthropology"),
