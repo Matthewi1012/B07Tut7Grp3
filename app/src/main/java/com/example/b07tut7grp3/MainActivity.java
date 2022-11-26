@@ -1,10 +1,6 @@
 package com.example.b07tut7grp3;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +10,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.admintools.Admin_Login;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -42,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         inputEmail=findViewById(R.id.inputEmail);
         inputPassword=findViewById(R.id.inputPassword);
         LoginButton=findViewById(R.id.LoginButton);
+        adminLogin = findViewById(R.id.adminLogin);
         progressDialog=new ProgressDialog(this);
 
         mAuth=FirebaseAuth.getInstance();
@@ -62,7 +61,12 @@ public class MainActivity extends AppCompatActivity {
                 PerformLogin();
             }
         });
+        adminLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {sendUserToAdminActivity();
+            }
 
+        });
     }
 
     private void PerformLogin() {
@@ -101,7 +105,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendUserToNextActivity() {
-        Intent intent=new Intent(MainActivity.this, Student_home_activity.class);
+        Intent intent=new Intent(MainActivity.this, StudentActivity.class);
+        //change "Student_home_activity" to the right name for student home page and keep the ".class"!!
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    private void sendUserToAdminActivity() {
+        Intent intent=new Intent(MainActivity.this, AdmainLoginActivity.class);
         //change "Student_home_activity" to the right name for student home page and keep the ".class"!!
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

@@ -16,11 +16,13 @@
     <string name="student_login">Login As A Student</string>
     <string name="student_sign_up">Sign Up As A Student</string>
     <string name="admin_login">Login As An Admin</string>
+    <string name="admin_login2">Admin Login</string>
     <string name="login">Login</string>
     <string name="Email_Address">Email</string>
     <string name="Password">Password</string>
     <string name="Forgot_Password">Forgot Password?</string>
     <string name="SignUp">Create New Student Account</string>
+    <string name="SignUpAdmin">Create New Admin Account</string>
     <string name="register">Register</string>
     <string name="haveAnAccount">Already Have An Account?</string>
     <string name="confirmpswd">Confirm Password</string>
