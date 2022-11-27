@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendUserToAdminActivity() {
-        Intent intent=new Intent(MainActivity.this, AdmainLoginActivity.class);
+        Intent intent=new Intent(MainActivity.this, com.example.admintoolsUTSC.Admin_Login.class);
         //change "Student_home_activity" to the right name for student home page and keep the ".class"!!
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

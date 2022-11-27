@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class Admin_Login extends AppCompatActivity {
     EditText admin_name, password;
-    Button LoginButton;
+    Button Login;
     FirebaseAuth fAuth;
 
     @Override
@@ -27,12 +27,12 @@ public class Admin_Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_login);
 
-        admin_name = findViewById(R.id.username);
-        password = findViewById(R.id.password);
+        admin_name = findViewById(R.id.inputEmail);
+        password = findViewById(R.id.inputPassword);
         fAuth = FirebaseAuth.getInstance();
-        LoginButton = findViewById(R.id.login);
+        Login = findViewById(R.id.LoginButton);
 
-        LoginButton.setOnClickListener(new View.OnClickListener(){
+        Login.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view) {
