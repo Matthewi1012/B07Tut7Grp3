@@ -20,6 +20,20 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".AddTakenCourse"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".StudentCoursesTaken"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".StudentHomePage"
             android:exported="false">
             <meta-data
