@@ -6,27 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".StudentCoursesTaken">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="341dp"
-        android:layout_height="20dp"
-        android:text="Displays student list of courses they have taken"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.771"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.146" />
-
     <Button
         android:id="@+id/to_add_taken_courses"
         android:layout_width="130dp"
         android:layout_height="54dp"
+        android:background="@color/buttonBackgroud"
         android:text="Add"
+        android:textColor="@color/background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.903"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.947" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/courses_taken_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/buttonBackgroud"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
