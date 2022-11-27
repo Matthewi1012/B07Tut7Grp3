@@ -40,10 +40,12 @@ public class Admin_Login extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(username)){
                     admin_name.setError("Username is Required");
+                    return;
                 }
 
                 if (TextUtils.isEmpty(pw)){
-                    admin_name.setError("Password is Required");
+                    password.setError("Password is Required");
+                    return;
                 }
                 fAuth.signInWithEmailAndPassword(username,pw).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
