@@ -15,9 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 public class StudentHomePage extends AppCompatActivity {
 
     private Button courseListBtn;
-    //Code for new Student home page
-    //will have area to view different course timelines
-    // button to go to completed courses list
+    Student student;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +33,11 @@ public class StudentHomePage extends AppCompatActivity {
             }
         });
     }
+
+    public void getStudent(Student student){
+        this.student = student;
+    }
+
 
     public void openStudentCoursesTaken(){
         Intent intent = new Intent(this, StudentCoursesTaken.class);

@@ -8,28 +8,17 @@
 
     <Button
         android:id="@+id/go_to_taken_course_list"
-        android:layout_width="233dp"
-        android:layout_height="71dp"
+        android:layout_width="160dp"
+        android:layout_height="49dp"
         android:background="@color/buttonBackgroud"
-        android:text="Goes to Student Courses list"
+        android:text="View taken courses"
         android:textColor="#EFEDED"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.936"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.59" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="208dp"
-        android:text="Under Construction"
-        app:layout_constraintBottom_toTopOf="@+id/go_to_taken_course_list"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/student_home_toolbar"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.961" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/student_home_toolbar"

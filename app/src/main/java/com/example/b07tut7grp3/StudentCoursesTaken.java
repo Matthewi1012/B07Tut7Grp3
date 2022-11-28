@@ -42,5 +42,4 @@ public class StudentCoursesTaken extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }
