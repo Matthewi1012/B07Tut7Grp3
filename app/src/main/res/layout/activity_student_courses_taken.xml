@@ -6,20 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".StudentCoursesTaken">
 
-    <Button
-        android:id="@+id/to_add_taken_courses"
-        android:layout_width="130dp"
-        android:layout_height="54dp"
-        android:background="@color/buttonBackgroud"
-        android:text="Add"
-        android:textColor="@color/background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.903"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.947" />
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/courses_taken_toolbar"
         android:layout_width="match_parent"
@@ -30,4 +16,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/taken_recycler"
+        android:layout_width="409dp"
+        android:layout_height="833dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/courses_taken_toolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
