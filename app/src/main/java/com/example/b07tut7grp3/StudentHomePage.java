@@ -15,7 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 public class StudentHomePage extends AppCompatActivity {
 
     private Button courseListBtn;
-    Student student;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +34,6 @@ public class StudentHomePage extends AppCompatActivity {
         });
     }
 
-    public void getStudent(Student student){
-        this.student = student;
-    }
 
 
     public void openStudentCoursesTaken(){
