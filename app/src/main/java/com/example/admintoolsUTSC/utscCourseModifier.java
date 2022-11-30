@@ -39,7 +39,7 @@ final class utscCourseModifier {
      * @param course a copy of the Course to be added
      * @throws ExceptionMessage if user is not Admin
      */
-    public utscCourseModifier(User user, Course course) throws ExceptionMessage {
+    public utscCourseModifier(User user, Course_admin course) throws ExceptionMessage {
         if (!(user instanceof Admin)) throw new ExceptionMessage("Action restricted");
         dbref = FirebaseDatabase.getInstance().getReference().getRoot().child("Courses");
         HashMap<String, Object> courseMap = new HashMap<>();
