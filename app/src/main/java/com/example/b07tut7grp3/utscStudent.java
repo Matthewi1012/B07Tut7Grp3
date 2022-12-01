@@ -18,8 +18,8 @@ import java.util.Map;
  * @author Kevin Li
  * @since 0.1
  */
-public class utscStudent extends Student{
-    protected Subject currentPOSt;
+public final class utscStudent extends Student{
+    private Subject currentPOSt;
 
     /**
      * A class constructor for creating a new UTSC student
@@ -40,7 +40,7 @@ public class utscStudent extends Student{
         this.plannedCourses = new ArrayList<>();
         this.currentYear = currentYear;
         this.currentSchool = "UTSC";
-        currentPOSt = post;
+        this.currentPOSt = post;
         this.email = email;
         this.username = username;
         uploadData();
@@ -48,20 +48,25 @@ public class utscStudent extends Student{
 
     /**
      * A constructor for retrieving student information from the database
+     * NOTE: this method involves a thread, so do not use utscStudent if the thread
+     * is not completed
+     * I.e. do not make any of utscStudent's methods inside
+     * the method containing the constructor
      * @param dbref a DataSnapshot pointing to the student's data
-     * @throws ExceptionMessage if the data cannot be found, or if some fields are missing
      */
     public utscStudent(DataSnapshot dbref) {
         /*
         To whoever uses this function
         Add the following code:
+        In global: private utscStudent student;
+        In method:
         Database dbref = FirebaseDatabase.getInstance()
                 .getReference().getRoot().child("Users").child("Students")
                 .child("utscStudents").child(whatever the username is);
         dbref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void OnComplete(@NonNull Task<DataSnapshot> task){
-                utscStudent student = new utscStudent(task.getResult());
+                student = new utscStudent(task.getResult());
                 // can add a success message or something here...
             }
         });
@@ -70,7 +75,7 @@ public class utscStudent extends Student{
 
         this.firstName = dbref.child("FirstName").getValue().toString();
         this.lastName = dbref.child("LastName").getValue().toString();
-        this.username = dbref.getKey();
+        this.username = dbref.child("Username").getValue().toString();
         this.email = dbref.child("Email").getValue().toString();
         this.currentSchool = "UTSC";
         this.currentYear = Integer.parseInt(dbref.child("currentYear").getValue().toString());
@@ -95,8 +100,9 @@ public class utscStudent extends Student{
         detailsMap.put("POst", this.currentPOSt.name());
         detailsMap.put("currentSchool", this.currentSchool);
         detailsMap.put("currentYear", this.currentYear);
-        detailsMap.put("firstName", this.firstName);
-        detailsMap.put("lastName", this.lastName);
+        detailsMap.put("FirstName", this.firstName);
+        detailsMap.put("LastName", this.lastName);
+        detailsMap.put("Username",this.username);
         String[] coursesTaken = new String[this.coursesTaken.size()];
         this.coursesTaken.toArray(coursesTaken);
         String[] plannedCourses = new String[this.plannedCourses.size()];
@@ -134,6 +140,20 @@ public class utscStudent extends Student{
         success.successMessage();
     }
 
+    /**
+     * Changes the current program of study for a student
+     * @param newPOst the Subject referring to the student's new program
+     */
+    public void changePOst(Subject newPOst){
+        DatabaseReference dbref = FirebaseDatabase.getInstance()
+                .getReference().getRoot().child("Users").child("Students").child("utscStudents")
+                .child(this.username);
+        this.currentPOSt = newPOst;
+        Map<String, Object> input = new HashMap<>();
+        input.put("POst", currentPOSt.name());
+        dbref.updateChildren(input);
+
+    }
     /**
      * returns the number of credits earned according to UofT calculations
      * @return total number of credits earned

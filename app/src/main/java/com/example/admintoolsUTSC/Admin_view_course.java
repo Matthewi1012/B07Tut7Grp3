@@ -26,14 +26,14 @@ public class Admin_view_course extends AppCompatActivity {
     ArrayList<Course_admin> list;
 
 
-    @SuppressLint("WrongViewCast")
+
     protected  void onCreate(Bundle sacedInstanceState) {
 
         super.onCreate(sacedInstanceState);
         setContentView(R.layout.activity_admin_view_course);
 
         recyclerView = findViewById(R.id.courseList);
-        database = FirebaseDatabase.getInstance().getReference();
+        database = FirebaseDatabase.getInstance().getReference("Courses");
         recyclerView.setHasFixedSize((true));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -50,6 +50,7 @@ public class Admin_view_course extends AppCompatActivity {
                     Course_admin course = dataSnapshot.getValue(Course_admin.class);
                     list.add(course);
                 }
+                Adapter.notifyDataSetChanged();
             }
 
             @Override
