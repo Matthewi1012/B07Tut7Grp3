@@ -20,7 +20,7 @@
                 android:id="@+id/add_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/buttonBackgroud"
+                android:background="@color/homePageGreen"
                 android:text="Add"
                 android:textColor="@color/background"
                 app:layout_constraintBottom_toBottomOf="parent"

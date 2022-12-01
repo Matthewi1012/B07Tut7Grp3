@@ -2,6 +2,7 @@ package com.example.b07tut7grp3;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -107,10 +108,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void dataSave() {
-        SharedPreferences sharedPreferences = getSharedPreferences("sharedPref",MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("user", mUser.getUid());
-        editor.apply();
+        editor.commit();
     }
     private void sendUserToNextActivity() {
         Intent intent=new Intent(MainActivity.this, StudentHomePage.class);
