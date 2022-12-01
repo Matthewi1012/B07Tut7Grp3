@@ -18,8 +18,8 @@ import java.util.Map;
  * @author Kevin Li
  * @since 0.1
  */
-public class utscStudent extends Student{
-    protected Subject currentPOSt;
+public final class utscStudent extends Student{
+    private Subject currentPOSt;
 
     /**
      * A class constructor for creating a new UTSC student
@@ -40,7 +40,7 @@ public class utscStudent extends Student{
         this.plannedCourses = new ArrayList<>();
         this.currentYear = currentYear;
         this.currentSchool = "UTSC";
-        currentPOSt = post;
+        this.currentPOSt = post;
         this.email = email;
         this.username = username;
         uploadData();
@@ -48,6 +48,10 @@ public class utscStudent extends Student{
 
     /**
      * A constructor for retrieving student information from the database
+     * NOTE: this method involves a thread, so do not use utscStudent if the thread
+     * is not completed
+     * I.e. do not make any of utscStudent's methods inside
+     * the method containing the constructor
      * @param dbref a DataSnapshot pointing to the student's data
      */
     public utscStudent(DataSnapshot dbref) {
@@ -136,6 +140,20 @@ public class utscStudent extends Student{
         success.successMessage();
     }
 
+    /**
+     * Changes the current program of study for a student
+     * @param newPOst the Subject referring to the student's new program
+     */
+    public void changePOst(Subject newPOst){
+        DatabaseReference dbref = FirebaseDatabase.getInstance()
+                .getReference().getRoot().child("Users").child("Students").child("utscStudents")
+                .child(this.username);
+        this.currentPOSt = newPOst;
+        Map<String, Object> input = new HashMap<>();
+        input.put("POst", currentPOSt.name());
+        dbref.updateChildren(input);
+
+    }
     /**
      * returns the number of credits earned according to UofT calculations
      * @return total number of credits earned
