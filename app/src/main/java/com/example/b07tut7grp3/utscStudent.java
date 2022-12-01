@@ -49,19 +49,20 @@ public class utscStudent extends Student{
     /**
      * A constructor for retrieving student information from the database
      * @param dbref a DataSnapshot pointing to the student's data
-     * @throws ExceptionMessage if the data cannot be found, or if some fields are missing
      */
     public utscStudent(DataSnapshot dbref) {
         /*
         To whoever uses this function
         Add the following code:
+        In global: private utscStudent student;
+        In method:
         Database dbref = FirebaseDatabase.getInstance()
                 .getReference().getRoot().child("Users").child("Students")
                 .child("utscStudents").child(whatever the username is);
         dbref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void OnComplete(@NonNull Task<DataSnapshot> task){
-                utscStudent student = new utscStudent(task.getResult());
+                student = new utscStudent(task.getResult());
                 // can add a success message or something here...
             }
         });
@@ -95,8 +96,9 @@ public class utscStudent extends Student{
         detailsMap.put("POst", this.currentPOSt.name());
         detailsMap.put("currentSchool", this.currentSchool);
         detailsMap.put("currentYear", this.currentYear);
-        detailsMap.put("firstName", this.firstName);
-        detailsMap.put("lastName", this.lastName);
+        detailsMap.put("FirstName", this.firstName);
+        detailsMap.put("LastName", this.lastName);
+        detailsMap.put("Username",this.username);
         String[] coursesTaken = new String[this.coursesTaken.size()];
         this.coursesTaken.toArray(coursesTaken);
         String[] plannedCourses = new String[this.plannedCourses.size()];
