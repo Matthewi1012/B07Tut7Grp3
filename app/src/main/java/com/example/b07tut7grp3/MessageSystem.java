@@ -1,12 +1,11 @@
 package com.example.b07tut7grp3;
 
+/**
+ * A simple message alert system
+ */
 public class MessageSystem {
-    /*
-    A message system
-    will create either a normal popup message
-    or a success popup message
-     */
-    String message;
+
+    private String message;
     public MessageSystem(String message){
         this.message = message;
     }

@@ -2,15 +2,24 @@ package com.example.b07tut7grp3;
 import com.google.firebase.database.*;
 import java.util.*;
 
-public class utscCourse implements Course{
-    protected String course_id;
-    protected List<String> prerequisites;
-    protected List<Semester> semester;
-    protected Subject subject;
-    protected utscCourse(){
-        // for initialization in add mode
-        //TODO: implement course addition
-    }
+/**
+ * A class that stores information about UTSC courses
+ * @author Kevin Li
+ * @since 0.1
+ */
+public final class utscCourse implements Course{
+    private final String course_id;
+    private final List<String> prerequisites;
+    private final List<Semester> semester;
+    private final Subject subject;
+    private final String course_name;
+
+    /**
+     * Class constructor for UTSC courses
+     * @param data a dataSnapshot of all courses, use the root/Courses directory
+     * @param course_id a course code of the course to be obtained
+     * @throws ExceptionMessage if the course cannot be found within the dataSnapshot
+     */
     public utscCourse(DataSnapshot data, String course_id) throws ExceptionMessage{
 
         if(!data.hasChild(course_id))
@@ -18,10 +27,13 @@ public class utscCourse implements Course{
         this.course_id = course_id;
         DataSnapshot courseInfo = data.child(course_id);
         this.subject = Subject.valueOf((String)(courseInfo.child("Subject").getValue()));
-        prerequisites = new ArrayList<String>();
-        for(DataSnapshot i : courseInfo.child("Prerequisites").getChildren())
-            prerequisites.add((String)i.getValue());
-        semester = new ArrayList<Semester>();
+        prerequisites = new ArrayList<>();
+        this.course_name = data.child("Name").getValue().toString();
+        if(courseInfo.hasChild("Prerequisites")) {
+            for (DataSnapshot i : courseInfo.child("Prerequisites").getChildren())
+                prerequisites.add((String) i.getValue());
+        }
+        semester = new ArrayList<>();
         for(DataSnapshot i : courseInfo.child("Semesters").getChildren())
             semester.add(Semester.valueOf((String)i.getValue()));
     }
@@ -31,7 +43,10 @@ public class utscCourse implements Course{
     public String getCourseId() {
         return course_id;
     }
-
+    @Override
+    public String getName(){
+        return course_name;
+    }
     @Override
     public List<String> getPrerequisites() {
         return this.prerequisites;
@@ -55,8 +70,7 @@ public class utscCourse implements Course{
     @Override
     public boolean equals(Object obj) {
         if(obj == this)return true;
-        if(obj == null || (!(obj instanceof utscCourse)))return false;
-        if(this.course_id.equals(((utscCourse) obj).getCourseId())) return true;
-        return false;
+        if((!(obj instanceof utscCourse)))return false;
+        return this.course_id.equals(((utscCourse) obj).getCourseId());
     }
 }

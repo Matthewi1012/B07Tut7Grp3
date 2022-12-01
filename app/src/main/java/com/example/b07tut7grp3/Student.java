@@ -1,37 +1,67 @@
 package com.example.b07tut7grp3;
 
-import java.util.HashSet;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.List;
+
+/**
+ * An abstract module for storing and obtaining data about student users
+ * Contains information such as name, courses taken, planned courses,
+ * current year, and current school
+ * @author Kevin Li
+ * @since 0.1
+ */
 abstract class Student extends User{
+    /**
+     * An abstract method for calculating total credits earned
+     * @return the total number of credits earned
+     */
     public abstract double getCreditsEarned();
+
     protected String firstName, lastName;
-    protected HashSet<String> coursesTaken;
-    protected HashSet<String> plannedCourses;
+    protected List<String> coursesTaken;
+    protected List<String> plannedCourses;
     protected int currentYear;
     protected String currentSchool;
 
+    /**
+     * Abstract method for adding planned courses
+     * @param planned the course code of the planned course
+     */
     public void addPlannedCourse(String planned){
         plannedCourses.add(planned);
     }
-    // Course completion module
-    public void completeCourse(String completed){
-        if(!plannedCourses.contains(completed)){
-            MessageSystem notice = new MessageSystem("Notice: course not found in planning, " +
-                    "adding course anyways");
-            addPlannedCourse(completed);
-            completeCourse(completed);
-        }
+
+    /**
+     * A method for completing planned courses
+     * Updates the course database by calling the abstract method updateCourses since
+     * student information is stored in different paths depending on the school attended
+     * @param completed the course to be completed
+     * @throws ExceptionMessage if completed cannot be found in the list of planned courses
+     */
+    public void completeCourse(String completed) throws ExceptionMessage{
+        if(!plannedCourses.contains(completed))
+            throw new ExceptionMessage("could not find planned course!");
         coursesTaken.add(completed);
         plannedCourses.remove(completed);
-        MessageSystem success = new MessageSystem("added course " + completed);
-        success.successMessage();
+        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference()
+                .getRoot().child("Users").child("Students");
+        updateCourses(dbref);
+
     }
+
+    /**
+     * An abstract class to update course information
+     * @param dbref a DatabaseReference to Root/Users/Students
+     */
+    abstract void updateCourses(DatabaseReference dbref);
     // Getter methods
     public int getCurrentYear(){
         return currentYear;
     }
-    public HashSet<String> getCoursesTaken(){ return coursesTaken; }
-    public HashSet<String> getPlannedCourses(){ return plannedCourses; }
+    public List<String> getCoursesTaken(){ return coursesTaken; }
+    public List<String> getPlannedCourses(){ return plannedCourses; }
     public String getFirstName() { return firstName; }
     public String getLastName() { return lastName; }
     public String getCurrentSchool(){
