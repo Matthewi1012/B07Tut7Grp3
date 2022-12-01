@@ -71,7 +71,7 @@ public class utscStudent extends Student{
 
         this.firstName = dbref.child("FirstName").getValue().toString();
         this.lastName = dbref.child("LastName").getValue().toString();
-        this.username = dbref.getKey();
+        this.username = dbref.child("Username").getValue().toString();
         this.email = dbref.child("Email").getValue().toString();
         this.currentSchool = "UTSC";
         this.currentYear = Integer.parseInt(dbref.child("currentYear").getValue().toString());

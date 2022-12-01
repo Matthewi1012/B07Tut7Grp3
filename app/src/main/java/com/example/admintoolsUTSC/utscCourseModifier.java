@@ -71,6 +71,7 @@ final class utscCourseModifier {
      */
     public void setCourseID(String id, String to_change){
         dbref.child(to_change).setValue(id);
+        dbref.child(to_change).child("courseName").setValue(id);
     }
 
     /**
