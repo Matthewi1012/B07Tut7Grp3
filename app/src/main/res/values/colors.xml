@@ -9,4 +9,5 @@
     <color name="background">#FFFFFFFF</color>
     <color name="buttonBackgroud">#3F51B5</color>
     <color name="white">#FFFFFF</color>
+    <color name="homePageGreen">#48B04E</color>
 </resources>

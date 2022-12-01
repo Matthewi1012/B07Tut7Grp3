@@ -1,5 +1,7 @@
 package com.example.b07tut7grp3;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -52,7 +54,7 @@ public class utscStudent extends Student{
      * @param dbref a DataSnapshot pointing to the student's data
      * @throws ExceptionMessage if the data cannot be found, or if some fields are missing
      */
-    public utscStudent(DataSnapshot dbref) throws ExceptionMessage {
+    public utscStudent(DataSnapshot dbref) /*throws ExceptionMessage*/ {
         /*
         To whoever uses this function
         Add the following code:
@@ -68,7 +70,7 @@ public class utscStudent extends Student{
         });
         // continue code here...
          */
-        try {
+//        try {
             this.firstName = dbref.child("FirstName").getValue().toString();
             this.lastName = dbref.child("LastName").getValue().toString();
             this.username = dbref.getKey();
@@ -86,11 +88,11 @@ public class utscStudent extends Student{
             }
             this.coursesTaken = coursesTaken;
             this.plannedCourses = plannedCourses;
-        }
-        catch(NullPointerException e){
-            throw new ExceptionMessage("Could not find data, please contact an administrator!"
-                    + e.getMessage());
-        }
+//        }
+//        catch(NullPointerException e){
+//            throw new ExceptionMessage("Could not find data, please contact an administrator!"
+//                    + e.getMessage());
+//        }
     }
     private void uploadData(){
         Map<String, Object> userMap = new HashMap<>();
