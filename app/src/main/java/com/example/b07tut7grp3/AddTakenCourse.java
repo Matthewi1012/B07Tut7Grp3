@@ -35,10 +35,8 @@ public class AddTakenCourse extends AppCompatActivity {
         dbref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                try {
-                    student = new utscStudent(task.getResult());
-                } catch (ExceptionMessage e) {
-                }
+                student = new utscStudent(task.getResult());
+
             }
         });
         courses = student.getCourseList();
