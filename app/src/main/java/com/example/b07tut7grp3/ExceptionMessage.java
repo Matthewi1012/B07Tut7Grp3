@@ -9,6 +9,7 @@ public class ExceptionMessage extends Exception{
      */
     public ExceptionMessage(String message){
         this.message = "Error: " + message;
+        System.out.println(message);
         //TODO: Create error popup window
     }
 }

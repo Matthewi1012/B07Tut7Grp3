@@ -41,10 +41,7 @@ public class StudentCoursesTaken extends AppCompatActivity {
         dbref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                try {
-                    student = new utscStudent(task.getResult());
-                } catch (ExceptionMessage e) {
-                }
+                student = new utscStudent(task.getResult());
             }
         });
         Toolbar toolbar = findViewById(R.id.courses_taken_toolbar);
@@ -53,8 +50,8 @@ public class StudentCoursesTaken extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         RecyclerView recyclerView = findViewById(R.id.taken_recycler);
         setUpTakenModels();
-        TakenM_RecyclerViewAdap adapter = new TakenM_RecyclerViewAdap(this, list);
-        recyclerView.setAdapter(adapter);
+        //TakenM_RecyclerViewAdap adapter = new TakenM_RecyclerViewAdap(this, list);
+        //recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 

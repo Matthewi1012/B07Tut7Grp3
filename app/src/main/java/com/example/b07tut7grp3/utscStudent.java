@@ -26,18 +26,17 @@ public class utscStudent extends Student{
      * Will also add the student's data to the database
      * @param firstName the student's first name
      * @param lastName the student's last name
-     * @param coursesTaken the courses taken by the student
      * @param currentYear the student's current year
      * @param post the student's current program of study
      * @param email the student's email
      * @param username the student's username
      */
-    public utscStudent(String firstName, String lastName, List<String> coursesTaken,
+    public utscStudent(String firstName, String lastName,
                    int currentYear, Subject post,
                        String email, String username){
         this.firstName = firstName;
         this.lastName = lastName;
-        this.coursesTaken = coursesTaken;
+        this.coursesTaken = new ArrayList<>();
         this.plannedCourses = new ArrayList<>();
         this.currentYear = currentYear;
         this.currentSchool = "UTSC";
@@ -52,7 +51,7 @@ public class utscStudent extends Student{
      * @param dbref a DataSnapshot pointing to the student's data
      * @throws ExceptionMessage if the data cannot be found, or if some fields are missing
      */
-    public utscStudent(DataSnapshot dbref) throws ExceptionMessage {
+    public utscStudent(DataSnapshot dbref) {
         /*
         To whoever uses this function
         Add the following code:
@@ -68,29 +67,24 @@ public class utscStudent extends Student{
         });
         // continue code here...
          */
-        try {
-            this.firstName = dbref.child("FirstName").getValue().toString();
-            this.lastName = dbref.child("LastName").getValue().toString();
-            this.username = dbref.getKey();
-            this.email = dbref.child("Email").getValue().toString();
-            this.currentSchool = "UTSC";
-            this.currentYear = Integer.parseInt(dbref.child("currentYear").getValue().toString());
-            this.currentPOSt = Subject.valueOf(dbref.child("POst").getValue().toString());
-            List<String> coursesTaken = new ArrayList<>();
-            List<String> plannedCourses = new ArrayList<>();
-            for(DataSnapshot i : dbref.child("coursesTaken").getChildren()){
-                coursesTaken.add((String)(i.getValue()));
-            }
-            for(DataSnapshot i : dbref.child("plannedCourses").getChildren()){
-                plannedCourses.add((String)(i.getValue()));
-            }
-            this.coursesTaken = coursesTaken;
-            this.plannedCourses = plannedCourses;
+
+        this.firstName = dbref.child("FirstName").getValue().toString();
+        this.lastName = dbref.child("LastName").getValue().toString();
+        this.username = dbref.getKey();
+        this.email = dbref.child("Email").getValue().toString();
+        this.currentSchool = "UTSC";
+        this.currentYear = Integer.parseInt(dbref.child("currentYear").getValue().toString());
+        this.currentPOSt = Subject.valueOf(dbref.child("POst").getValue().toString());
+        List<String> coursesTaken = new ArrayList<>();
+        List<String> plannedCourses = new ArrayList<>();
+        for(DataSnapshot i : dbref.child("coursesTaken").getChildren()){
+            coursesTaken.add((String)(i.getValue()));
         }
-        catch(NullPointerException e){
-            throw new ExceptionMessage("Could not find data, please contact an administrator!"
-                    + e.getMessage());
+        for(DataSnapshot i : dbref.child("plannedCourses").getChildren()){
+            plannedCourses.add((String)(i.getValue()));
         }
+        this.coursesTaken = coursesTaken;
+        this.plannedCourses = plannedCourses;
     }
     private void uploadData(){
         Map<String, Object> userMap = new HashMap<>();

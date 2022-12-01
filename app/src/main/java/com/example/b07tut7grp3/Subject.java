@@ -60,7 +60,7 @@ public enum Subject{
     VISUAL_AND_PERFORMING_ARTS("Visual and Performing Arts"),
     WOMENS_AND_GENDER_STUDIES("Women's and Gender Studies");
     private final String subject;
-    private Subject(String subject){
+    Subject(String subject){
         this.subject = subject;
     }
 
