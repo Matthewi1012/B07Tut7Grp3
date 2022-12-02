@@ -74,7 +74,7 @@ public class Admin_Login extends AppCompatActivity {
                                             if (dataSnapshot.exists()) {
                                                 Toast.makeText(Admin_Login.this, "Logged in", Toast.LENGTH_SHORT).show();
                                                 startActivity(new Intent(Admin_Login.this,
-                                                        admin_main.class));
+                                                        Admin_view_course.class));
                                             } else {
                                                 Toast.makeText(Admin_Login.this, "Login Failed", Toast.LENGTH_SHORT).show();
                                                 FirebaseAuth.getInstance().signOut();

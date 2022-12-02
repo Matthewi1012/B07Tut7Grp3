@@ -82,9 +82,9 @@ public class Admin_view_course extends AppCompatActivity {
 //            @Override
 //            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 //                String courseName = list.get(i).courseName;
-//                Intent intent = new Intent(Admin_view_course.this, DisplayStoreActivity.class);
-//                intent.putExtra("storeName", storeName);
-//                intent.putExtra("currentUser", currentUser);
+//                Intent intent = new Intent(Admin_view_course.this,     .class);
+//                intent.putExtra("courseName", courseName);
+//
 //                startActivity(intent);
 //            }
 //        });
