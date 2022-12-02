@@ -8,10 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -23,20 +27,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 
 public class Admin_view_course extends AppCompatActivity {
 
-
+    List<String> courselist;
     RecyclerView recyclerView;
     DatabaseReference database;
     Adapter Adapter;
     ArrayList<Course_admin> list;
     com.google.android.material.floatingactionbutton.FloatingActionButton addbutton;
+    ListView lvcourse;
 
 
-
+    ProgressDialog progressDialog;
 
 
 
@@ -49,7 +54,19 @@ public class Admin_view_course extends AppCompatActivity {
         addbutton = findViewById(R.id.addbutton);
 
 
+
+
+
+
+
+
+
         recyclerView = findViewById(R.id.courseList);
+
+
+
+
+
         database = FirebaseDatabase.getInstance().getReference("Courses");
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -60,10 +77,24 @@ public class Admin_view_course extends AppCompatActivity {
         recyclerView.setAdapter(Adapter);
 
 
+//        lvcourse = (ListView) findViewById(R.id.courseList);
+//        lvcourse.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                String courseName = list.get(i).courseName;
+//                Intent intent = new Intent(Admin_view_course.this, DisplayStoreActivity.class);
+//                intent.putExtra("storeName", storeName);
+//                intent.putExtra("currentUser", currentUser);
+//                startActivity(intent);
+//            }
+//        });
+
+
 
         addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 startActivity(new Intent(getApplicationContext(), AddCourse.class));
             }
         });
