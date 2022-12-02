@@ -83,8 +83,8 @@ public class MainActivity extends AppCompatActivity {
             inputPassword.setError("Please enter proper password");
         }else
         {
-            progressDialog.setMessage("Registering...Please wait");
-            progressDialog.setTitle("Registration");
+            progressDialog.setMessage("Logging to the account...Please wait");
+            progressDialog.setTitle("Logging");
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
 
@@ -115,13 +115,13 @@ public class MainActivity extends AppCompatActivity {
     }
     private void sendUserToNextActivity() {
         Intent intent=new Intent(MainActivity.this, StudentHomePage.class);
+        //send user to personal info page and then to StudentHomePage.class.
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 
     private void sendUserToAdminActivity() {
         Intent intent=new Intent(MainActivity.this, com.example.admintoolsUTSC.Admin_Login.class);
-        //change "Student_home_activity" to the right name for student home page and keep the ".class"!!
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
