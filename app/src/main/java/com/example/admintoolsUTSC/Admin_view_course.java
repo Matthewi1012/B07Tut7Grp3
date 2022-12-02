@@ -1,12 +1,19 @@
 package com.example.admintoolsUTSC;
 
-import android.annotation.SuppressLint;
-import android.os.Bundle;
+import static com.example.b07tut7grp3.R.id.addbutton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
 
 import com.example.b07tut7grp3.R;
 import com.google.firebase.database.DataSnapshot;
@@ -17,6 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+
+
 public class Admin_view_course extends AppCompatActivity {
 
 
@@ -24,22 +33,42 @@ public class Admin_view_course extends AppCompatActivity {
     DatabaseReference database;
     Adapter Adapter;
     ArrayList<Course_admin> list;
+    com.google.android.material.floatingactionbutton.FloatingActionButton addbutton;
 
 
 
-    protected  void onCreate(Bundle sacedInstanceState) {
 
-        super.onCreate(sacedInstanceState);
+
+
+    @Override
+    protected  void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_view_course);
+
+        addbutton = findViewById(R.id.addbutton);
+
 
         recyclerView = findViewById(R.id.courseList);
         database = FirebaseDatabase.getInstance().getReference("Courses");
-        recyclerView.setHasFixedSize((true));
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
         list = new ArrayList<>();
         Adapter = new Adapter(this,list);
         recyclerView.setAdapter(Adapter);
+
+
+
+        addbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), AddCourse.class));
+            }
+        });
+
+
 
         database.addValueEventListener(new ValueEventListener() {
 
@@ -59,5 +88,13 @@ public class Admin_view_course extends AppCompatActivity {
             }
 
         });
+
+
+
+
+
         }
+
+
+
     }

@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.b07tut7grp3.Course;
+
 import com.example.b07tut7grp3.R;
 
 import java.util.ArrayList;
@@ -37,6 +37,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Course_admin course = list.get(position);
         holder.courseName.setText(course.getCourseName());
+        holder.Subject.setText(course.getSubject());
     }
 
     @Override
@@ -45,10 +46,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     }
 
     public static class ViewHolder extends  RecyclerView.ViewHolder{
-        TextView courseName;
-        public ViewHolder(View courseView){
-            super((courseView));
+        TextView courseName, Subject;
+
+        public ViewHolder(@NonNull View courseView){
+            super(courseView);
             courseName = courseView.findViewById((R.id.tvcourseName));
+            Subject = courseView.findViewById((R.id.tvsubjectName));
         }
 
     }

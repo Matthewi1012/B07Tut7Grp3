@@ -7,4 +7,9 @@ public class Course_admin {
         return courseName;
     }
 
+    String Subject;
+    public String getSubject(){
+        return Subject;
+    }
+
 }
