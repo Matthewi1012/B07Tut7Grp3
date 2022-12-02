@@ -83,10 +83,10 @@ public final class utscStudent extends Student{
         List<String> coursesTaken = new ArrayList<>();
         List<String> plannedCourses = new ArrayList<>();
         for(DataSnapshot i : dbref.child("coursesTaken").getChildren()){
-            coursesTaken.add((String)(i.getValue()));
+            if(!(i.getValue().equals("*"))) coursesTaken.add((String)(i.getValue()));
         }
         for(DataSnapshot i : dbref.child("plannedCourses").getChildren()){
-            plannedCourses.add((String)(i.getValue()));
+            if(!(i.getValue().equals("*"))) plannedCourses.add((String)(i.getValue()));
         }
         this.coursesTaken = coursesTaken;
         this.plannedCourses = plannedCourses;
@@ -103,10 +103,22 @@ public final class utscStudent extends Student{
         detailsMap.put("FirstName", this.firstName);
         detailsMap.put("LastName", this.lastName);
         detailsMap.put("Username",this.username);
-        String[] coursesTaken = new String[this.coursesTaken.size()];
-        this.coursesTaken.toArray(coursesTaken);
-        String[] plannedCourses = new String[this.plannedCourses.size()];
-        this.plannedCourses.toArray(plannedCourses);
+        String[] coursesTaken = new String[1];
+        String[] plannedCourses = new String[1];
+        if(this.coursesTaken.size() == 0){
+            coursesTaken[0] = "*";
+        }
+        else {
+            coursesTaken = new String[this.coursesTaken.size()];
+            this.coursesTaken.toArray(coursesTaken);
+        }
+        if(this.plannedCourses.size() == 0) {
+            plannedCourses[0] = "*";
+        }
+        else{
+            plannedCourses = new String[this.plannedCourses.size()];
+            this.plannedCourses.toArray(plannedCourses);
+        }
         detailsMap.put("coursesTaken", coursesTaken);
         detailsMap.put("plannedCourses", plannedCourses);
         userMap.put(username, detailsMap);
@@ -129,10 +141,22 @@ public final class utscStudent extends Student{
     protected void updateCourses(DatabaseReference dbref){
         dbref = dbref.child("utscStudents").child(username);
         Map<String, Object> detailsMap = new HashMap<>();
-        String[] coursesTaken = new String[this.coursesTaken.size()];
-        this.coursesTaken.toArray(coursesTaken);
-        String[] plannedCourses = new String[this.plannedCourses.size()];
-        this.plannedCourses.toArray(plannedCourses);
+        String[] coursesTaken = new String[1];
+        String[] plannedCourses = new String[1];
+        if(this.coursesTaken.size() == 0){
+            coursesTaken[0] = "*";
+        }
+        else {
+            coursesTaken = new String[this.coursesTaken.size()];
+            this.coursesTaken.toArray(coursesTaken);
+        }
+        if(this.plannedCourses.size() == 0) {
+            plannedCourses[0] = "*";
+        }
+        else{
+            plannedCourses = new String[this.plannedCourses.size()];
+            this.plannedCourses.toArray(plannedCourses);
+        }
         detailsMap.put("plannedCourses", plannedCourses);
         detailsMap.put("coursesTaken", coursesTaken);
         dbref.updateChildren(detailsMap);

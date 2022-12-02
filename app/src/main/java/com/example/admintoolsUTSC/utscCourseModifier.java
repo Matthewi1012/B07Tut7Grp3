@@ -47,10 +47,13 @@ final class utscCourseModifier {
         if(!course.getPrerequisites().isEmpty())
             detailsMap.put("Prerequisites", course.getPrerequisites().toArray());
         else{
-            detailsMap.put("Prerequisites", new String[0]);
+            String[] input = new String[1];
+            input[0] = "*";
+            detailsMap.put("Prerequisites", input);
         }
         detailsMap.put("Subject", course.getSubject().name());
         detailsMap.put("Name", course.getName());
+        detailsMap.put("courseName", course.getCourseId());
         String[] semester = new String[course.getSemester().size()];
         int iter = 0;
         for (Semester i : course.getSemester()){
@@ -95,10 +98,18 @@ final class utscCourseModifier {
      * @param id the course code
      */
     public void setPrereqs(List<String> prereqs, String id){
-        String[] prereqs_array = new String[prereqs.size()];
-        prereqs.toArray(prereqs_array);
         Map<String, Object> prereqs_map = new HashMap<>();
-        prereqs_map.put("Prerequisites", prereqs_array);
+
+        if(prereqs.isEmpty()){
+            String[] prereqs_array = new String[1];
+            prereqs_array[0] = "*";
+            prereqs_map.put("Prerequisites", prereqs_array);
+        }
+        else {
+            String[] prereqs_array = new String[prereqs.size()];
+            prereqs.toArray(prereqs_array);
+            prereqs_map.put("Prerequisites", prereqs_array);
+        }
         dbref.child(id).updateChildren(prereqs_map);
     }
 

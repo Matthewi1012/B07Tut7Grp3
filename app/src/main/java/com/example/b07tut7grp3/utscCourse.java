@@ -1,5 +1,4 @@
 package com.example.b07tut7grp3;
-import android.util.Log;
 
 import com.google.firebase.database.*;
 import java.util.*;
