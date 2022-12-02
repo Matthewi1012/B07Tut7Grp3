@@ -96,13 +96,11 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 }
             });
-
         }
     }
 
     private void sendUserToNextActivity() {
-        Intent intent=new Intent(RegisterActivity.this, StudentHomePage.class);
-        //change "Student_home_activity" to the right name for student home page and keep the ".class"!!
+        Intent intent=new Intent(RegisterActivity.this, StudentInfopage.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }

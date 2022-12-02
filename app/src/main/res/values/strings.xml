@@ -28,4 +28,66 @@
     <string name="confirmpswd">Confirm Password</string>
     <string name="courseName">Course Name:</string>
     <string name="csca08">CSCA08</string>
+    <string name="studentinfotitle">Just few more steps...</string>
+    <string name="firstname">First Name</string>
+    <string name="lastname">Last Name</string>
+    <string name="currentyear">Your Current Year</string>
+    <string name="currentpost">Your Current POSt</string>
+    <string name="yourusername">User Name</string>
+    <string name="getstarted">Get Started</string>
+    <string name="selectPOSt">Select your program: </string>
+
+    <string-array name="POSt_list">
+        <item>African Studies</item>
+        <item>Anthropology</item>
+        <item>Applied Microbiology</item>
+        <item>Arts, Culture, and Media</item>
+        <item>Arts Management</item>
+        <item>Art History"</item>
+        <item>Astronomy</item>
+        <item>Biological Sciences</item>
+        <item>City Studies</item>
+        <item>Classical Studies</item>
+        <item>Cognitive Science</item>
+        <item>Computer Science</item>
+        <item>Concurrent Teacher Education</item>
+        <item>Diaspora and Transnational Studies</item>
+        <item>Economics for Management Studies</item>
+        <item>Environmental Science</item>
+        <item>Environmental Science and Technology</item>
+        <item>Environmental Studies</item>
+        <item>French</item>
+        <item>Geography</item>
+        <item>Global Asia Studies</item>
+        <item>Health Studies</item>
+        <item>Historical and Cultural Studies</item>
+        <item>History</item>
+        <item>International Development Studies</item>
+        <item>International Studies</item>
+        <item>Intersections, Exchanges, and Encounters</item>
+        <item>Journalism</item>
+        <item>Languages</item>
+        <item>Linguistics</item>
+        <item>Management</item>
+        <item>Mathematics</item>
+        <item>Media Studies</item>
+        <item>Music and Culture</item>
+        <item>Neuroscience</item>
+        <item>New Media Studies</item>
+        <item>Paramedicine</item>
+        <item>Physical Sciences</item>
+        <item>Physics and Astrophysics</item>
+        <item>Political Science</item>
+        <item>Psychology</item>
+        <item>Religion</item>
+        <item>Society and Environment</item>
+        <item>Sociology</item>
+        <item>Statistics</item>
+        <item>Studio</item>
+        <item>Teaching and Learning</item>
+        <item>Theatre and Performance Studies</item>
+        <item>Visual and Performing Arts</item>
+        <item>"Women's and Gender Studies"</item>
+
+    </string-array>
 </resources>
