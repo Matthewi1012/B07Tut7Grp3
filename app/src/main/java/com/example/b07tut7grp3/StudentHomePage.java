@@ -70,7 +70,7 @@ public class StudentHomePage extends AppCompatActivity {
                 creditsEarned = (TextView) findViewById(R.id.txt_credits_earned);
                 creditsEarned.setText("Credits Earned: " + Double.toString(student.getCreditsEarned()));
                 POst = (TextView) findViewById(R.id.txt_POst);
-                POst.setText("POst: " + student.currentPOSt.toString());
+                POst.setText("POst: " + student.getCurrentPOSt());
                 email = (TextView) findViewById(R.id.txt_email);
                 email.setText(student.email);
             }
@@ -97,7 +97,8 @@ public class StudentHomePage extends AppCompatActivity {
     }
 
     private void openGetPlannedCourses() {
-        //Will implement when Brian is done
+        Intent intent = new Intent(this, student_add_planned_courses.class);
+        startActivity(intent);
     }
 
     public void openStudentCoursesTaken(){

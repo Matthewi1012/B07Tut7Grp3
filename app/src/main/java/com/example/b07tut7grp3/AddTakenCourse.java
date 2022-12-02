@@ -16,21 +16,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddTakenCourse extends AppCompatActivity {
 
-    utscStudent student;
     SharedPreferences sharedPreferences;
     String userId;
     List<Course> courses;
     ArrayList<AddListModel> list = new ArrayList<>();
-    utscCourse course;
+    ArrayList<String> listPrereq = new ArrayList<>();
     DatabaseReference dbref;
+    String courseId;
+    String courseName;
+    Subject courseSubject;
+    String prereqs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,29 +43,36 @@ public class AddTakenCourse extends AppCompatActivity {
         setContentView(R.layout.activity_add_taken_course);
         sharedPreferences = getApplicationContext().getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
         userId = sharedPreferences.getString("user","");
-//        dbref = FirebaseDatabase.getInstance()
-//                .getReference().getRoot().child("Users").child("Students")
-//                .child("utscStudents").child(userId);
-//        dbref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                try {
-//                    student = new utscStudent(task.getResult());
-//                } catch (ExceptionMessage e) {
-//                    e.getMessage();
-//                }
-//            }
-//        });
         Toolbar toolbar = findViewById(R.id.student_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Add Taken Course");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-//        RecyclerView recyclerView = findViewById(R.id.add_recycler_view);
-//        setUpAddModels();
-//        AddM_RecyclerViewAdap adapter = new AddM_RecyclerViewAdap(this, list);
-//        recyclerView.setAdapter(adapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        dbref = FirebaseDatabase.getInstance().getReference().getRoot();
+        dbref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                RecyclerView recyclerView = findViewById(R.id.add_recycler_view);
+                for(DataSnapshot i: snapshot.child("Courses").getChildren()){
+                    courseId = i.getKey();
+                    courseName = i.child("Name").getValue().toString();
+                    courseSubject = Subject.valueOf(i.child("Subject").getValue().toString());
+                    if(i.hasChild("Prerequisites")){
+                        for(DataSnapshot j: i.child("Prerequisites").getChildren()){
+                            listPrereq.add(j.getValue().toString());
+                        }
+                        prereqs = "Prereqs: "+ String.join(", ", listPrereq);
+                    } else {
+                        prereqs = "No Prerequisites";
+                    }
+                    list.add(new AddListModel(courseId,courseName,courseSubject.toString(),prereqs));
+                }
+                AddM_RecyclerViewAdap adapter = new AddM_RecyclerViewAdap(AddTakenCourse.this, list);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(AddTakenCourse.this));
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
     }
 
     @Override
@@ -70,13 +82,4 @@ public class AddTakenCourse extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    public void setUpAddModels() {
-        for(int i = 0; i < courses.size(); i++) {
-            Course course = courses.get(i);
-            String prereqs = String.join(", ", course.getPrerequisites());
-            list.add(new AddListModel(course.getCourseId(), course.getName(), course.getSubject().toString(), prereqs));
-        }
-    }
-
 }

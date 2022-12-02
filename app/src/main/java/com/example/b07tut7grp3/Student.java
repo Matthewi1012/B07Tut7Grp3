@@ -38,11 +38,9 @@ abstract class Student extends User{
      * Updates the course database by calling the abstract method updateCourses since
      * student information is stored in different paths depending on the school attended
      * @param completed the course to be completed
-     * @throws ExceptionMessage if completed cannot be found in the list of planned courses
      */
-    public void completeCourse(String completed) throws ExceptionMessage{
-        if(!plannedCourses.contains(completed))
-            throw new ExceptionMessage("could not find planned course!");
+    public void completeCourse(String completed) {
+
         coursesTaken.add(completed);
         plannedCourses.remove(completed);
         DatabaseReference dbref = FirebaseDatabase.getInstance().getReference()

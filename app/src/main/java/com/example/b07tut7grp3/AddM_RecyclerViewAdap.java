@@ -15,11 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddM_RecyclerViewAdap extends RecyclerView.Adapter<AddM_RecyclerViewAdap.MyAddViewHolder> {
 
@@ -52,22 +56,27 @@ public class AddM_RecyclerViewAdap extends RecyclerView.Adapter<AddM_RecyclerVie
         holder.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                sharedPreferences = context.getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
-//                String userId = sharedPreferences.getString("user","");
-//                dbref = FirebaseDatabase.getInstance()
-//                        .getReference().getRoot().child("Users").child("Students")
-//                        .child("utscStudents").child(userId);
-//                dbref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                        if(student.coursesTaken.contains(adminCourses.get(p))){
-//                            Toast.makeText(context,"You already have taken this course", Toast.LENGTH_SHORT).show();
-//                        }else{
-//                            student.addPlannedCourse(adminCourses.get(p).getCourseId());
-//                        }
-//                    }
-//                });
-                Toast.makeText(context, adminCourses.get(p).getCourseId() + " added", Toast.LENGTH_SHORT).show();
+                sharedPreferences = context.getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
+                String userId = sharedPreferences.getString("user","");
+                dbref = FirebaseDatabase.getInstance()
+                        .getReference().getRoot().child("Users").child("Students")
+                        .child("utscStudents").child(userId);
+                dbref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        student = new utscStudent(snapshot);
+                        if(student.coursesTaken.contains(adminCourses.get(p).courseId)){
+                            Toast.makeText(context,"You have already taken this course", Toast.LENGTH_SHORT).show();
+                        } else {
+                            student.coursesTaken.add(adminCourses.get(p).courseId);
+                            Map<String, Object> detailsMap = new HashMap<>();
+                            detailsMap.put("coursesTaken", student.coursesTaken);
+                            dbref.updateChildren(detailsMap);
+                            Toast.makeText(context,adminCourses.get(p).courseId + " added", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {}});
             }
         });
     }

@@ -28,11 +28,11 @@ public class TakenM_RecyclerViewAdap extends RecyclerView.Adapter<TakenM_Recycle
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TakenM_RecyclerViewAdap.MyTakenViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyTakenViewHolder holder, int position) {
         int p = position;
-        holder.courseId.setText(coursesTaken.get(p).getCourseId());
-        holder.courseName.setText(coursesTaken.get(p).getCourseName());
-        holder.subject.setText(coursesTaken.get(p).getCourseSubject());
+        holder.courseId.setText(coursesTaken.get(p).courseId);
+        holder.courseName.setText(coursesTaken.get(p).courseName);
+        holder.subject.setText(coursesTaken.get(p).courseSubject);
     }
 
     @Override

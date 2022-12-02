@@ -1,4 +1,6 @@
 package com.example.b07tut7grp3;
+import android.util.Log;
+
 import com.google.firebase.database.*;
 import java.util.*;
 
@@ -14,6 +16,14 @@ public final class utscCourse implements Course{
     private final Subject subject;
     private final String course_name;
 
+    public utscCourse(String course_id, List<String> prerequisites, List<Semester> semester, Subject subject, String course_name) {
+        this.course_id = course_id;
+        this.prerequisites = prerequisites;
+        this.semester = semester;
+        this.subject = subject;
+        this.course_name = course_name;
+    }
+
     /**
      * Class constructor for UTSC courses
      * @param data a dataSnapshot of all courses, use the root/Courses directory
@@ -28,14 +38,15 @@ public final class utscCourse implements Course{
         DataSnapshot courseInfo = data.child(course_id);
         this.subject = Subject.valueOf((String)(courseInfo.child("Subject").getValue()));
         prerequisites = new ArrayList<>();
+
         this.course_name = data.child("Name").getValue().toString();
         if(courseInfo.hasChild("Prerequisites")) {
             for (DataSnapshot i : courseInfo.child("Prerequisites").getChildren())
-                prerequisites.add((String) i.getValue());
+                prerequisites.add(i.getValue().toString());
         }
         semester = new ArrayList<>();
         for(DataSnapshot i : courseInfo.child("Semesters").getChildren())
-            semester.add(Semester.valueOf((String)i.getValue()));
+            semester.add(Semester.valueOf(i.getValue().toString()));
     }
 
     //Simple getter methods

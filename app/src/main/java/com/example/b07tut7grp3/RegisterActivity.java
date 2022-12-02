@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -87,6 +89,7 @@ public class RegisterActivity extends AppCompatActivity {
                     if(task.isSuccessful())
                     {
                         progressDialog.dismiss();
+                        dataSave();
                         sendUserToNextActivity();
                         Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                     }else
@@ -97,6 +100,13 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public void dataSave() {
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("user", mUser.getUid());
+        editor.commit();
     }
 
     private void sendUserToNextActivity() {

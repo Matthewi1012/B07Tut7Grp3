@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,7 +35,7 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
     Button AddCourseBtn;
     Button remove;
 
-    String uid = "EZOZ4QTpQLXCD8WkOxnhclkE0iO2";
+    String uid = "BeNm0LKA2RMgUELDklCXQnwA0lq2";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -136,8 +136,6 @@ public final class utscStudent extends Student{
         detailsMap.put("plannedCourses", plannedCourses);
         detailsMap.put("coursesTaken", coursesTaken);
         dbref.updateChildren(detailsMap);
-        MessageSystem success = new MessageSystem("added course successfully!");
-        success.successMessage();
     }
 
     /**
