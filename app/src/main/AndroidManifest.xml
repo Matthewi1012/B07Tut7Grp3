@@ -18,15 +18,9 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
-            android:name=".AddCourse"
+            android:name="com.example.admintoolsUTSC.AddCourse"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -48,7 +42,7 @@
         </activity>
         <activity
             android:name=".StudentCoursesTaken"
-            android:exported="true">
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -59,15 +53,13 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:exported="true">
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-
         </activity>
         <activity
             android:name=".MainActivity"
@@ -76,20 +68,33 @@
                 android:name="android.app.lib_name"
                 android:value="" />
 
+
         </activity>
         <activity
-            android:name=".admin_main"
-            android:exported="false">
+            android:name="com.example.admintoolsUTSC.admin_main"
+            android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name="com.example.admintoolsUTSC.Admin_Login"
-            android:exported="false">
+            android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+        </activity>
+        <activity
+            android:name=".student_add_planned_courses"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <meta-data

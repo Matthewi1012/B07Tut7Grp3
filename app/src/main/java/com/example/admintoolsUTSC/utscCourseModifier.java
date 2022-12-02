@@ -44,7 +44,11 @@ final class utscCourseModifier {
         dbref = FirebaseDatabase.getInstance().getReference().getRoot().child("Courses");
         HashMap<String, Object> courseMap = new HashMap<>();
         HashMap<String, Object> detailsMap = new HashMap<>();
-        detailsMap.put("Prerequisites", course.getPrerequisites().toArray());
+        if(!course.getPrerequisites().isEmpty())
+            detailsMap.put("Prerequisites", course.getPrerequisites().toArray());
+        else{
+            detailsMap.put("Prerequisites", new String[0]);
+        }
         detailsMap.put("Subject", course.getSubject().name());
         detailsMap.put("Name", course.getName());
         String[] semester = new String[course.getSemester().size()];
@@ -71,6 +75,7 @@ final class utscCourseModifier {
      */
     public void setCourseID(String id, String to_change){
         dbref.child(to_change).setValue(id);
+        dbref.child(to_change).child("courseName").setValue(id);
     }
 
     /**
@@ -79,7 +84,9 @@ final class utscCourseModifier {
      * @param name the new course name
      */
     public void setName(String id, String name){
-        dbref.child(id).child("Name").setValue(name);
+        Map<String, Object> input = new HashMap<>();
+        input.put("Name", name);
+        dbref.child(id).updateChildren(input);
     }
 
     /**
@@ -115,14 +122,14 @@ final class utscCourseModifier {
      * @param id the course code
      */
     public void setSubject(Subject sub, String id){
-        dbref.child(id).child("Subject").setValue(sub.name());
+        Map<String, Object> input = new HashMap<>();
+        input.put("Subject", sub.name());
+        dbref.child(id).child("Subject").updateChildren(input);
     }
 
     /**
      * Delete the course
      * @param id the course to be deleted
      */
-    public void deleteData(String id){
-        dbref.child(id).setValue(null);
-    }
+    public void deleteData(String id){ dbref.child(id).setValue(null); }
 }

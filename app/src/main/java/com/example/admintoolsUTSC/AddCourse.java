@@ -1,11 +1,10 @@
-package com.example.b07tut7grp3;
+package com.example.admintoolsUTSC;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,21 +17,17 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.example.admintoolsUTSC.Admin;
-import com.example.admintoolsUTSC.AdminLoginHelper;
-import com.example.admintoolsUTSC.Admin_Login;
+import com.example.b07tut7grp3.R;
+import com.example.b07tut7grp3.Semester;
+import com.example.b07tut7grp3.Subject;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
 public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -140,6 +135,7 @@ public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSe
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b){
                     semester.add(Semester.SUMMER.name());
+                    checkSwitch3 = true;
 
                 }
                 else{
