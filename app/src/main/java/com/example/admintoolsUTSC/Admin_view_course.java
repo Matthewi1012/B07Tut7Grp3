@@ -44,7 +44,6 @@ public class Admin_view_course extends AppCompatActivity implements itemclick{
     ProgressDialog progressDialog;
 
 
-
     @Override
     protected  void onCreate(Bundle savedInstanceState) {
 
@@ -54,17 +53,7 @@ public class Admin_view_course extends AppCompatActivity implements itemclick{
         addbutton = findViewById(R.id.addbutton);
 
 
-
-
-
-
-
-
-
         recyclerView = findViewById(R.id.courseList);
-
-
-
 
 
         database = FirebaseDatabase.getInstance().getReference("Courses");
@@ -77,9 +66,6 @@ public class Admin_view_course extends AppCompatActivity implements itemclick{
         recyclerView.setAdapter(Adapter);
 
 
-
-
-
         addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,8 +73,6 @@ public class Admin_view_course extends AppCompatActivity implements itemclick{
                 startActivity(new Intent(getApplicationContext(), AddCourse.class));
             }
         });
-
-
 
         database.addValueEventListener(new ValueEventListener() {
 
@@ -106,15 +90,8 @@ public class Admin_view_course extends AppCompatActivity implements itemclick{
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-
         });
-
-
-
-
-
-        }
-
+    }
 
     @Override
     public void onItemClick(int position) {
@@ -122,7 +99,5 @@ public class Admin_view_course extends AppCompatActivity implements itemclick{
         intent.putExtra("courseName", list.get(position).getCourseName());
         intent.putExtra("Subject", list.get(position).getSubject());
         startActivity(intent);
-
-
     }
 }

@@ -21,9 +21,10 @@ public class coursemodify_test extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.coursemodify_test);
 
+        a = findViewById(R.id.button2);
 
         String name = getIntent().getStringExtra("courseName");
-        a = findViewById(R.id.button2);
+
         a.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

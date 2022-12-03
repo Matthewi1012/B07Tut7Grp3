@@ -2,8 +2,11 @@ package com.example.b07tut7grp3;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,6 +16,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class StudentInfopage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     TextView title;
     EditText first_name;
@@ -20,8 +26,15 @@ public class StudentInfopage extends AppCompatActivity implements AdapterView.On
     EditText currentyear;
     Spinner POStspinner;
     EditText email;
-    EditText username;
+//    EditText username;
     Button getstarted;
+    utscStudent student;
+
+    FirebaseAuth mAuth;
+    FirebaseUser mUser;
+
+    private SharedPreferences sharedPreferences;
+    String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,30 +54,43 @@ public class StudentInfopage extends AppCompatActivity implements AdapterView.On
         POStspinner.setOnItemSelectedListener(this);
 
         email=findViewById(R.id.email);
-        username=findViewById(R.id.username);
+
+        sharedPreferences = getApplicationContext().getSharedPreferences("sharedPref",
+                Context.MODE_PRIVATE);
+        userid = sharedPreferences.getString("user","");
+
         getstarted=findViewById(R.id.button);
 
-        String FirstName=first_name.getText().toString();
-        String LastName=last_name.getText().toString();
-        String Email=email.getText().toString();
-        String UserName=username.getText().toString();
-        String Currentyear = currentyear.getText().toString();
-        if (Currentyear != null && !Currentyear.equals("")){
-            Currentyear = currentyear.getText().toString();
-        }else{
-            Currentyear = "1";
-        }
+        mAuth=FirebaseAuth.getInstance();
+        mUser=mAuth.getCurrentUser();
 
-        int Year=Integer.parseInt(Currentyear);
-
-        String POStname=POStspinner.getSelectedItem().toString();
-        Subject currentpost=Subject.getValue(POStname);
 
         getstarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                utscStudent newStudent = new utscStudent(FirstName, LastName, Year,
-                        currentpost, Email, UserName);
+                String FirstName=first_name.getText().toString();
+                Log.e("firstname",FirstName);
+                String LastName=last_name.getText().toString();
+                Log.e("lastname",LastName);
+                String Email=email.getText().toString();
+                Log.e("email",Email);
+                String userID=userid;
+                Log.e("userid",userID);
+                String Currentyear = currentyear.getText().toString();
+                if (Currentyear != null && !Currentyear.equals("")){
+                    Currentyear = currentyear.getText().toString();
+                }else{
+                    Currentyear = "1";
+                }
+
+                int Year=Integer.parseInt(Currentyear);
+
+                String POStname=POStspinner.getSelectedItem().toString();
+                Subject currentpost=Subject.getValue(POStname);
+
+                student = new utscStudent(FirstName, LastName, Year,
+                        currentpost, Email, userID);
+                dataSave();
                 sendUserToNextActivity();
             }
         });
@@ -75,6 +101,13 @@ public class StudentInfopage extends AppCompatActivity implements AdapterView.On
         Intent intent=new Intent(StudentInfopage.this, StudentHomePage.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    public void dataSave() {
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("user", mUser.getUid());
+        editor.commit();
     }
 
     @Override
