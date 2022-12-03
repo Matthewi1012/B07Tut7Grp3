@@ -103,22 +103,10 @@ public final class utscStudent extends Student{
         detailsMap.put("FirstName", this.firstName);
         detailsMap.put("LastName", this.lastName);
         detailsMap.put("Username",this.username);
-        String[] coursesTaken = new String[1];
-        String[] plannedCourses = new String[1];
-        if(this.coursesTaken.size() == 0){
-            coursesTaken[0] = "*";
-        }
-        else {
-            coursesTaken = new String[this.coursesTaken.size()];
-            this.coursesTaken.toArray(coursesTaken);
-        }
-        if(this.plannedCourses.size() == 0) {
-            plannedCourses[0] = "*";
-        }
-        else{
-            plannedCourses = new String[this.plannedCourses.size()];
-            this.plannedCourses.toArray(plannedCourses);
-        }
+        List<String> coursesTaken = this.coursesTaken;
+        List<String> plannedCourses = this.plannedCourses;
+        if(coursesTaken.isEmpty()) coursesTaken.add("*");
+        if(plannedCourses.isEmpty()) plannedCourses.add("*");
         detailsMap.put("coursesTaken", coursesTaken);
         detailsMap.put("plannedCourses", plannedCourses);
         userMap.put(username, detailsMap);

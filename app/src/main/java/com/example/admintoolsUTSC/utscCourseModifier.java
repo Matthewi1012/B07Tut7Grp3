@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import com.example.b07tut7grp3.*;
 import com.google.firebase.database.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,10 +46,10 @@ final class utscCourseModifier {
         HashMap<String, Object> courseMap = new HashMap<>();
         HashMap<String, Object> detailsMap = new HashMap<>();
         if(!course.getPrerequisites().isEmpty())
-            detailsMap.put("Prerequisites", course.getPrerequisites().toArray());
+            detailsMap.put("Prerequisites", course.getPrerequisites());
         else{
-            String[] input = new String[1];
-            input[0] = "*";
+            List<String> input = new ArrayList<>();
+            input.add("*");
             detailsMap.put("Prerequisites", input);
         }
         detailsMap.put("Subject", course.getSubject().name());
@@ -101,15 +102,11 @@ final class utscCourseModifier {
         Map<String, Object> prereqs_map = new HashMap<>();
 
         if(prereqs.isEmpty()){
-            String[] prereqs_array = new String[1];
-            prereqs_array[0] = "*";
-            prereqs_map.put("Prerequisites", prereqs_array);
+            List<String> prereqs_empty = new ArrayList<>();
+            prereqs_empty.add("*");
+            prereqs_map.put("Prerequisites", prereqs_empty);
         }
-        else {
-            String[] prereqs_array = new String[prereqs.size()];
-            prereqs.toArray(prereqs_array);
-            prereqs_map.put("Prerequisites", prereqs_array);
-        }
+        else prereqs_map.put("Prerequisites", prereqs);
         dbref.child(id).updateChildren(prereqs_map);
     }
 
@@ -119,9 +116,9 @@ final class utscCourseModifier {
      * @param id the course code
      */
     public void setSemester(List<Semester> semesters, String id){
-        String[] semester_array = new String[semesters.size()];
+        List<String> semester_array = new ArrayList<>();
         for(int i = 0;i<semesters.size(); i++)
-            semester_array[i] = semesters.get(i).name();
+            semester_array.add(semesters.get(i).name());
         Map<String, Object> semester_map = new HashMap<>();
         semester_map.put("Semester", semester_array);
         dbref.child(id).updateChildren(semester_map);
