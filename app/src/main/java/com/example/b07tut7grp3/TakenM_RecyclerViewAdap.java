@@ -4,19 +4,24 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
+import java.util.List;
 
-public class TakenM_RecyclerViewAdap extends RecyclerView.Adapter<TakenM_RecyclerViewAdap.MyTakenViewHolder> {
+public class TakenM_RecyclerViewAdap extends RecyclerView.Adapter<TakenM_RecyclerViewAdap.MyTakenViewHolder> implements Filterable {
 
     Context context;
     ArrayList<TakenListModel> coursesTaken;
+    ArrayList<TakenListModel> coursesTakenFull;
 
     public TakenM_RecyclerViewAdap(Context context, ArrayList<TakenListModel> coursesTaken) {
         this.context = context;
         this.coursesTaken = coursesTaken;
+        coursesTakenFull = new ArrayList<>(coursesTaken);
     }
 
     @NonNull
@@ -39,6 +44,38 @@ public class TakenM_RecyclerViewAdap extends RecyclerView.Adapter<TakenM_Recycle
     public int getItemCount() {
         return coursesTaken.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+
+    public Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<TakenListModel> filtered = new ArrayList<>();
+            if(charSequence == null || charSequence.length() == 0){
+                filtered.addAll(coursesTakenFull);
+            }else {
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+                for(TakenListModel i: coursesTakenFull){
+                    if(i.getCourseId().toLowerCase().contains(filterPattern)){
+                        filtered.add(i);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filtered;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            coursesTaken.clear();
+            coursesTaken.addAll((List) filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public static class MyTakenViewHolder extends RecyclerView.ViewHolder {
         TextView courseId;

@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -46,7 +47,9 @@ public class StudentCoursesTaken extends AppCompatActivity {
     Subject subject;
     String courseName;
     TextView addMore;
-
+    Toolbar toolbar;
+    RecyclerView recyclerView;
+    TakenM_RecyclerViewAdap adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +57,7 @@ public class StudentCoursesTaken extends AppCompatActivity {
         setContentView(R.layout.activity_student_courses_taken);
         sharedPreferences = getApplicationContext().getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
         userId = sharedPreferences.getString("user","");
-        Toolbar toolbar = findViewById(R.id.courses_taken_toolbar);
+        toolbar = findViewById(R.id.courses_taken_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Courses Taken");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -64,7 +67,7 @@ public class StudentCoursesTaken extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
-                RecyclerView recyclerView = findViewById(R.id.taken_recycler);
+                recyclerView = findViewById(R.id.taken_recycler);
                 student = new utscStudent(snapshot.child("Users").child("Students").child("utscStudents").child(userId));
                 if(student.coursesTaken.size() == 0){
                     addMore = (TextView) findViewById(R.id.add_more_courses);
@@ -80,36 +83,13 @@ public class StudentCoursesTaken extends AppCompatActivity {
                         list.add(new TakenListModel(student.coursesTaken.get(i),courseName, subject.toString()));
                     }
                 }
-                TakenM_RecyclerViewAdap adapter = new TakenM_RecyclerViewAdap(StudentCoursesTaken.this, list);
+                adapter = new TakenM_RecyclerViewAdap(StudentCoursesTaken.this, list);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(StudentCoursesTaken.this));
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
-//        dbref.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                RecyclerView recyclerView = findViewById(R.id.taken_recycler);
-//                student = new utscStudent(snapshot.child("Users").child("Students").child("utscStudents").child(userId));
-//                if(student.coursesTaken.size() == 0){
-//                    addMore = (TextView) findViewById(R.id.add_more_courses);
-//                    addMore.setText("You have not completed any courses yet! Add some by clicking the '+' above.");
-//                }
-//                for(int i = 0; i < student.coursesTaken.size(); i++){
-//                    if(snapshot.child("Courses").hasChild(student.coursesTaken.get(i))){
-//                        subject = Subject.valueOf(snapshot.child("Courses").child(student.coursesTaken.get(i)).child("Subject").getValue().toString());
-//                        courseName = snapshot.child("Courses").child(student.coursesTaken.get(i)).child("Name").getValue().toString();
-//                        list.add(new TakenListModel(student.coursesTaken.get(i),courseName, subject.toString()));
-//                    }
-//                }
-//                TakenM_RecyclerViewAdap adapter = new TakenM_RecyclerViewAdap(StudentCoursesTaken.this, list);
-//                recyclerView.setAdapter(adapter);
-//                recyclerView.setLayoutManager(new LinearLayoutManager(StudentCoursesTaken.this));
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {}
-//        });
     }
 
     @Override
@@ -127,7 +107,21 @@ public class StudentCoursesTaken extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.taken_courses_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+        MenuItem searchItem = menu.findItem(R.id.show_taken_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+        return true;
     }
 }
 

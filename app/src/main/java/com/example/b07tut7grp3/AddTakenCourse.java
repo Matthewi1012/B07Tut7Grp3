@@ -6,9 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,8 +30,8 @@ import java.util.List;
 public class AddTakenCourse extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
+    Toolbar toolbar;
     String userId;
-    List<Course> courses;
     ArrayList<AddListModel> list = new ArrayList<>();
     ArrayList<String> listPrereq = new ArrayList<>();
     DatabaseReference dbref;
@@ -36,6 +39,8 @@ public class AddTakenCourse extends AppCompatActivity {
     String courseName;
     Subject courseSubject;
     String prereqs;
+    RecyclerView recyclerView;
+    AddM_RecyclerViewAdap adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,7 @@ public class AddTakenCourse extends AppCompatActivity {
         setContentView(R.layout.activity_add_taken_course);
         sharedPreferences = getApplicationContext().getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
         userId = sharedPreferences.getString("user","");
-        Toolbar toolbar = findViewById(R.id.student_toolbar);
+        toolbar = findViewById(R.id.student_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Add Taken Course");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -51,22 +56,24 @@ public class AddTakenCourse extends AppCompatActivity {
         dbref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                RecyclerView recyclerView = findViewById(R.id.add_recycler_view);
+                recyclerView = findViewById(R.id.add_recycler_view);
                 for(DataSnapshot i: snapshot.child("Courses").getChildren()){
                     courseId = i.getKey();
                     courseName = i.child("Name").getValue().toString();
                     courseSubject = Subject.valueOf(i.child("Subject").getValue().toString());
-                    if(i.hasChild("Prerequisites")){
-                        for(DataSnapshot j: i.child("Prerequisites").getChildren()){
-                            listPrereq.add(j.getValue().toString());
-                        }
-                        prereqs = "Prereqs: "+ String.join(", ", listPrereq);
-                    } else {
+                    listPrereq.clear();
+                    for(DataSnapshot j: i.child("Prerequisites").getChildren()){
+                        listPrereq.add(j.getValue().toString());
+                    }
+                    listPrereq.remove("*");
+                    if(listPrereq.size() == 0){
                         prereqs = "No Prerequisites";
+                    } else {
+                        prereqs = "Prereqs: "+ String.join(", ", listPrereq);
                     }
                     list.add(new AddListModel(courseId,courseName,courseSubject.toString(),prereqs));
                 }
-                AddM_RecyclerViewAdap adapter = new AddM_RecyclerViewAdap(AddTakenCourse.this, list);
+                adapter = new AddM_RecyclerViewAdap(AddTakenCourse.this, list);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(AddTakenCourse.this));
             }
@@ -81,5 +88,26 @@ public class AddTakenCourse extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.add_taken_search,menu);
+        MenuItem searchItem = menu.findItem(R.id.add_taken_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+        return true;
     }
 }
