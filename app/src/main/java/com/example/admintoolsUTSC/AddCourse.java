@@ -80,7 +80,6 @@ public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSe
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-
         AddPrereqBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,6 +87,10 @@ public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSe
                 prerequisite = prereqs.getText().toString().toUpperCase();
                 if  ((TextUtils.isEmpty(prerequisite)) || (!prerequisite.matches(course))){
                     prereqs.setError("Course must contain 4 letters followed by 2 numbers");
+                    Toast.makeText(AddCourse.this, "Invalid Course", Toast.LENGTH_SHORT).show();
+                    return;
+                }else if (prerequisite.equals(courseCode.getText().toString().toUpperCase())) {
+                    prereqs.setError("Prerequisite cannot be the same as course code");
                     Toast.makeText(AddCourse.this, "Invalid Course", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -161,20 +164,18 @@ public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSe
                     courseName.setError("Name cannot be empty");
                     Toast.makeText(AddCourse.this, "Invalid Course Name", Toast.LENGTH_SHORT).show();
                     return;
-                }if (prerequisites.isEmpty()){
-                    prerequisites.add("0");
-
                 }if (!checkSwitch1 && !checkSwitch2 && !checkSwitch3){
                     Toast.makeText(AddCourse.this, "Select At Least One Semester", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-
+                prerequisites.add(0, "*");
                 HashMap<String, Object> courseMap = new HashMap<>();
                 courseMap.put("Prerequisites", prerequisites);
                 courseMap.put("Subject", subject);
                 courseMap.put("Name", course_name);
                 courseMap.put("Semester", semester);
+                courseMap.put("courseName", course_id);
 
                 dbref = FirebaseDatabase.getInstance().getReference().getRoot().child("Courses");
                 DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().getRoot().child("Courses");
@@ -184,7 +185,7 @@ public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSe
                         prerequisites.clear();
                         semester.clear();
                         Toast.makeText(AddCourse.this, "Added Course", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(), admin_main.class));
+                        startActivity(new Intent(getApplicationContext(), com.example.admintoolsUTSC.Admin_view_course.class));
                     }
 
 
