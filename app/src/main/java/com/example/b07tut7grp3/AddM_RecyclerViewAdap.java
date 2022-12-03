@@ -14,8 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,10 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class AddM_RecyclerViewAdap extends RecyclerView.Adapter<AddM_RecyclerViewAdap.MyAddViewHolder> implements Filterable {
@@ -37,6 +33,7 @@ public class AddM_RecyclerViewAdap extends RecyclerView.Adapter<AddM_RecyclerVie
     SharedPreferences sharedPreferences;
     DatabaseReference dbref;
     Student student;
+    ArrayList<String> coursesTakenFill;
 
     public AddM_RecyclerViewAdap(Context context, ArrayList<AddListModel> adminCourses) {
         this.context = context;
@@ -62,22 +59,26 @@ public class AddM_RecyclerViewAdap extends RecyclerView.Adapter<AddM_RecyclerVie
         holder.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sharedPreferences = context.getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
-                String userId = sharedPreferences.getString("user","");
                 dbref = FirebaseDatabase.getInstance()
-                        .getReference().getRoot().child("Users").child("Students")
-                        .child("utscStudents").child(userId);
+                        .getReference().getRoot();
                 dbref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        student = new utscStudent(snapshot);
+                        sharedPreferences = context.getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
+                        String userId = sharedPreferences.getString("user","");
+                        student = new utscStudent(snapshot.child("Users").child("Students")
+                                .child("utscStudents").child(userId));
                         if(student.coursesTaken.contains(adminCourses.get(p).courseId)){
                             Toast.makeText(context,"You have already taken this course", Toast.LENGTH_SHORT).show();
+                        } else if(checkPrereqs(snapshot, student, adminCourses.get(p).courseId) == false){
+                            Toast.makeText(context,"You do not meet the course prerequisites", Toast.LENGTH_SHORT).show();
                         } else {
                             student.coursesTaken.add(adminCourses.get(p).courseId);
+                            coursesTakenFill = new ArrayList<>(student.coursesTaken);
+                            coursesTakenFill.add(0, "*");
                             Map<String, Object> detailsMap = new HashMap<>();
-                            detailsMap.put("coursesTaken", student.coursesTaken);
-                            dbref.updateChildren(detailsMap);
+                            detailsMap.put("coursesTaken", coursesTakenFill);
+                            dbref.child("Users").child("Students").child("utscStudents").child(userId).updateChildren(detailsMap);
                             Toast.makeText(context,adminCourses.get(p).courseId + " added", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -85,6 +86,15 @@ public class AddM_RecyclerViewAdap extends RecyclerView.Adapter<AddM_RecyclerVie
                     public void onCancelled(@NonNull DatabaseError error) {}});
             }
         });
+    }
+
+    private boolean checkPrereqs(DataSnapshot snapshot, Student student, String courseId) {
+        for(DataSnapshot i: snapshot.child("Courses").child(courseId).child("Prerequisites").getChildren()){
+            if(!student.coursesTaken.contains(i.getValue().toString())  && !i.getValue().toString().equals("*") ){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
