@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,6 +18,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.admintoolsUTSC.admin_main;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -85,7 +89,27 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
 
                         //System.out.println(courses.toString());
                         adapter.notifyDataSetChanged();
-                        courseArrayAdapter.notifyDataSetChanged();
+                        DatabaseReference database3 = FirebaseDatabase.getInstance().getReference().getRoot().child("Users").child("Students").child("utscStudents").child(uid).child("plannedCourses");
+                        database3.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                planned.clear();
+                                plannedCourses.clear();
+                                for (DataSnapshot snap: snapshot.getChildren()) {
+                                    if (!snap.getValue(String.class).equals("*")) {
+                                        plannedCourses.add(snap.getValue(String.class));
+                                        planned.add(new plannedCourse(snap.getValue(String.class)));
+                                    }
+                                }
+                                System.out.println(plannedCourses);
+                                courseArrayAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                            }
+                        });
+
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
@@ -100,27 +124,6 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
             }
         });
 
-        DatabaseReference database3 = FirebaseDatabase.getInstance().getReference().getRoot().child("Users").child("Students").child("utscStudents").child(uid).child("plannedCourses");
-        database3.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                planned.clear();
-                plannedCourses.clear();
-                for (DataSnapshot snap: snapshot.getChildren()) {
-                    if (!snap.getValue(String.class).equals("*")) {
-                        plannedCourses.add(snap.getValue(String.class));
-                        planned.add(new plannedCourse(snap.getValue(String.class)));
-                    }
-                }
-
-                adapter.notifyDataSetChanged();
-                courseArrayAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
 
         AddCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,11 +134,13 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
                     return;
                 }
                 String c = eligibleCourseList.getSelectedItem().toString();
+                if (plannedCourses.contains(c)){
+                    Toast.makeText(student_add_planned_courses.this, "Course already in planner", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 plannedCourses.add(c);
                 planned.add(new plannedCourse(c));
-                courses.remove(c);
                 courseArrayAdapter.notifyDataSetChanged();
-                adapter.notifyDataSetChanged();
                 Toast.makeText(student_add_planned_courses.this, "Added Course", Toast.LENGTH_SHORT).show();
             }
         });
@@ -144,12 +149,10 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
             @Override
             public void onItemClick(int position) {
 
-                courses.add(plannedCourses.get(position));
                 planned.remove(planned.get(position));
                 plannedCourses.remove(position);
                 System.out.println(plannedCourses);
                 courseArrayAdapter.notifyItemRemoved(position);
-                adapter.notifyDataSetChanged();
                 Toast.makeText(student_add_planned_courses.this, "Removed Course", Toast.LENGTH_SHORT).show();
 
             }
@@ -172,7 +175,7 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
         });
 
 
-}
+    }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

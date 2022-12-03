@@ -95,7 +95,7 @@ public final class utscStudent extends Student{
         Map<String, Object> userMap = new HashMap<>();
         Map<String, Object> detailsMap = new HashMap<>();
         DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().getRoot()
-                .child("Users").child("Students").child("utscStudents");
+                .child("Users").child("Students").child("utscStudents").child(username);
         detailsMap.put("Email", this.email);
         detailsMap.put("POst", this.currentPOSt.name());
         detailsMap.put("currentSchool", this.currentSchool);
@@ -109,8 +109,7 @@ public final class utscStudent extends Student{
         if(plannedCourses.isEmpty()) plannedCourses.add("*");
         detailsMap.put("coursesTaken", coursesTaken);
         detailsMap.put("plannedCourses", plannedCourses);
-        userMap.put(username, detailsMap);
-        dbref.setValue(userMap, new DatabaseReference.CompletionListener() {
+        dbref.setValue(detailsMap, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error,
                                    @NonNull DatabaseReference ref) {
@@ -129,22 +128,20 @@ public final class utscStudent extends Student{
     protected void updateCourses(DatabaseReference dbref){
         dbref = dbref.child("utscStudents").child(username);
         Map<String, Object> detailsMap = new HashMap<>();
-        String[] coursesTaken = new String[1];
-        String[] plannedCourses = new String[1];
+        List<String> coursesTaken = new ArrayList<>();
+        List<String> plannedCourses = new ArrayList<>();
         if(this.coursesTaken.size() == 0){
-            coursesTaken[0] = "*";
+            coursesTaken.add("*");
         }
-        else {
-            coursesTaken = new String[this.coursesTaken.size()];
-            this.coursesTaken.toArray(coursesTaken);
-        }
+        else
+            coursesTaken = this.coursesTaken;
+
         if(this.plannedCourses.size() == 0) {
-            plannedCourses[0] = "*";
+            plannedCourses.add("*");
         }
-        else{
-            plannedCourses = new String[this.plannedCourses.size()];
-            this.plannedCourses.toArray(plannedCourses);
-        }
+        else
+            plannedCourses = this.plannedCourses;
+
         detailsMap.put("plannedCourses", plannedCourses);
         detailsMap.put("coursesTaken", coursesTaken);
         dbref.updateChildren(detailsMap);
