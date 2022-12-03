@@ -161,7 +161,12 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                plannedCourses.add(0, "*");
+                if (plannedCourses.contains("*") && !plannedCourses.isEmpty()){
+                    plannedCourses.remove("*");
+                }
+                if (plannedCourses.isEmpty()){
+                    plannedCourses.add(0, "*");
+                }
                 HashMap<String, Object> courseMap = new HashMap<>();
                 courseMap.put("plannedCourses", plannedCourses);
                 DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().getRoot().child("Users").child("Students").child("utscStudents").child(uid);

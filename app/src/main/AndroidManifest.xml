@@ -78,6 +78,7 @@
             </intent-filter>
 
 
+
         </activity>
         <activity
             android:name="com.example.admintoolsUTSC.admin_main"
@@ -114,9 +115,6 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-
-
-
 
         </activity>
 
