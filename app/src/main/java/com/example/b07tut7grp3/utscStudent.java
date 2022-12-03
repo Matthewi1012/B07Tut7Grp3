@@ -95,7 +95,7 @@ public final class utscStudent extends Student{
         Map<String, Object> userMap = new HashMap<>();
         Map<String, Object> detailsMap = new HashMap<>();
         DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().getRoot()
-                .child("Users").child("Students").child("utscStudents");
+                .child("Users").child("Students").child("utscStudents").child(username);
         detailsMap.put("Email", this.email);
         detailsMap.put("POst", this.currentPOSt.name());
         detailsMap.put("currentSchool", this.currentSchool);
