@@ -63,12 +63,14 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -84,10 +86,16 @@
                 android:name="android.app.lib_name"
                 android:value="" />
 
-
         </activity>
         <activity
             android:name="com.example.admintoolsUTSC.Admin_Login"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="com.example.admintoolsUTSC.coursemodify_test"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
