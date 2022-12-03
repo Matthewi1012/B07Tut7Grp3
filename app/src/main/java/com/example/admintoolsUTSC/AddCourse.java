@@ -169,7 +169,7 @@ public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSe
                     return;
                 }
 
-                if(prerequisites.isEmpty())prerequisites.add(0, "*");
+                if(prerequisites.isEmpty()) prerequisites.add(0, "*");
                 HashMap<String, Object> courseMap = new HashMap<>();
                 courseMap.put("Prerequisites", prerequisites);
                 courseMap.put("Subject", subject);
