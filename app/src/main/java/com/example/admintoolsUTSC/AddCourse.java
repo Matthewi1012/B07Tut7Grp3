@@ -90,6 +90,10 @@ public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSe
                     prereqs.setError("Course must contain 4 letters followed by 2 numbers");
                     Toast.makeText(AddCourse.this, "Invalid Course", Toast.LENGTH_SHORT).show();
                     return;
+                }else if (prerequisite.equals(courseCode.getText().toString().toUpperCase())) {
+                    prereqs.setError("Prerequisite cannot be the same as course code");
+                    Toast.makeText(AddCourse.this, "Invalid Course", Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 prerequisites.add(prerequisite);
                 prereqs.getText().clear();
@@ -162,7 +166,7 @@ public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSe
                     Toast.makeText(AddCourse.this, "Invalid Course Name", Toast.LENGTH_SHORT).show();
                     return;
                 }if (prerequisites.isEmpty()){
-                    prerequisites.add("0");
+                    prerequisites.add("*");
 
                 }if (!checkSwitch1 && !checkSwitch2 && !checkSwitch3){
                     Toast.makeText(AddCourse.this, "Select At Least One Semester", Toast.LENGTH_SHORT).show();
@@ -175,6 +179,7 @@ public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSe
                 courseMap.put("Subject", subject);
                 courseMap.put("Name", course_name);
                 courseMap.put("Semester", semester);
+                courseMap.put("courseName", course_id);
 
                 dbref = FirebaseDatabase.getInstance().getReference().getRoot().child("Courses");
                 DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().getRoot().child("Courses");
