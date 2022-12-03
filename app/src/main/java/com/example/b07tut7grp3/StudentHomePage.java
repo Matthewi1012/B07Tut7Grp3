@@ -55,7 +55,7 @@ public class StudentHomePage extends AppCompatActivity {
         DatabaseReference dbref = FirebaseDatabase.getInstance()
                 .getReference().getRoot().child("Users").child("Students")
                 .child("utscStudents").child(userID);
-        dbref.addListenerForSingleValueEvent(new ValueEventListener() {
+        dbref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 student = new utscStudent(snapshot);
@@ -68,7 +68,7 @@ public class StudentHomePage extends AppCompatActivity {
                 currentYr = (TextView) findViewById(R.id.txt_current_yr);
                 currentYr.setText("Current Year: " + Integer.toString(student.currentYear));
                 creditsEarned = (TextView) findViewById(R.id.txt_credits_earned);
-                creditsEarned.setText("Credits Earned: " + Double.toString(student.getCreditsEarned()));
+                creditsEarned.setText("Credits Earned: " + Double.toString(student.coursesTaken.size() * 0.5));
                 POst = (TextView) findViewById(R.id.txt_POst);
                 POst.setText("POst: " + student.getCurrentPOSt());
                 email = (TextView) findViewById(R.id.txt_email);

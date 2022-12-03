@@ -69,11 +69,10 @@ public class StudentCoursesTaken extends AppCompatActivity {
                 list.clear();
                 recyclerView = findViewById(R.id.taken_recycler);
                 student = new utscStudent(snapshot.child("Users").child("Students").child("utscStudents").child(userId));
+                addMore = (TextView) findViewById(R.id.add_more_courses);
                 if(student.coursesTaken.size() == 0){
-                    addMore = (TextView) findViewById(R.id.add_more_courses);
                     addMore.setText("You have not completed any courses yet! Add some by clicking the '+' above.");
                 } else {
-                    addMore = (TextView) findViewById(R.id.add_more_courses);
                     addMore.setText("");
                 }
                 for(int i = 0; i < student.coursesTaken.size(); i++){

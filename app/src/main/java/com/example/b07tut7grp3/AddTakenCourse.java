@@ -56,6 +56,7 @@ public class AddTakenCourse extends AppCompatActivity {
         dbref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                list.clear();
                 recyclerView = findViewById(R.id.add_recycler_view);
                 for(DataSnapshot i: snapshot.child("Courses").getChildren()){
                     courseId = i.getKey();

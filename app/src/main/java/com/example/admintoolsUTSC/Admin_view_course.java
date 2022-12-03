@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Admin_view_course extends AppCompatActivity {
+public class Admin_view_course extends AppCompatActivity implements itemclick{
 
     List<String> courselist;
     RecyclerView recyclerView;
@@ -73,21 +73,10 @@ public class Admin_view_course extends AppCompatActivity {
 
 
         list = new ArrayList<>();
-        Adapter = new Adapter(this,list);
+        Adapter = new Adapter(this,list, this);
         recyclerView.setAdapter(Adapter);
 
 
-//        lvcourse = (ListView) findViewById(R.id.courseList);
-//        lvcourse.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                String courseName = list.get(i).courseName;
-//                Intent intent = new Intent(Admin_view_course.this,     .class);
-//                intent.putExtra("courseName", courseName);
-//
-//                startActivity(intent);
-//            }
-//        });
 
 
 
@@ -127,5 +116,13 @@ public class Admin_view_course extends AppCompatActivity {
         }
 
 
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(Admin_view_course.this, coursemodify_test.class);
+        intent.putExtra("courseName", list.get(position).getCourseName());
+        intent.putExtra("Subject", list.get(position).getSubject());
+        startActivity(intent);
+
 
     }
+}
