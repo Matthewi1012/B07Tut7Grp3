@@ -19,17 +19,17 @@ public class coursemodify_test extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.coursemodify_test);
+        //setContentView(R.layout.coursemodify_test);
 
 
         String name = getIntent().getStringExtra("courseName");
-        a = findViewById(R.id.button2);
-        a.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(coursemodify_test.this, name, Toast.LENGTH_SHORT).show();
-            }
-        });
+        //a = findViewById(R.id.button2);
+//        a.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(coursemodify_test.this, name, Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
     }
 
