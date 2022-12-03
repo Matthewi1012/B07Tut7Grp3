@@ -15,20 +15,21 @@ import com.example.b07tut7grp3.R;
 import java.util.ArrayList;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
-
+    private final itemclick itemClick;
     Context context;
     ArrayList<Course_admin> list;
 
-    public  Adapter(Context context, ArrayList<Course_admin> list){
+    public  Adapter(Context context, ArrayList<Course_admin> list, itemclick itemClick){
         this.context = context;
         this.list = list;
+        this.itemClick = itemClick;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.course,parent,false);
-        return new ViewHolder(v);
+        return new ViewHolder(v, itemClick);
 
 
     }
@@ -48,10 +49,24 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public static class ViewHolder extends  RecyclerView.ViewHolder{
         TextView courseName, Subject;
 
-        public ViewHolder(@NonNull View courseView){
+        public ViewHolder(@NonNull View courseView, itemclick itemClick){
             super(courseView);
             courseName = courseView.findViewById((R.id.tvcourseName));
             Subject = courseView.findViewById((R.id.tvsubjectName));
+            courseView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(itemClick != null){
+                        int pos = getAdapterPosition();
+                        itemClick.onItemClick(pos);
+
+                    }
+                }
+            });
+
+
+
+
         }
 
     }
