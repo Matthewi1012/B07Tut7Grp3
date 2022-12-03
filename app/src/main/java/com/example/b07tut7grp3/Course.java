@@ -14,4 +14,6 @@ public interface Course {
     public List<Semester> getSemester();
     public Subject getSubject();
     public String getName();
+    @Override
+    public String toString();
 }
