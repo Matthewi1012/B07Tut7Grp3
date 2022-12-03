@@ -80,7 +80,6 @@ public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSe
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-
         AddPrereqBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -165,15 +164,12 @@ public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSe
                     courseName.setError("Name cannot be empty");
                     Toast.makeText(AddCourse.this, "Invalid Course Name", Toast.LENGTH_SHORT).show();
                     return;
-                }if (prerequisites.isEmpty()){
-                    prerequisites.add("*");
-
                 }if (!checkSwitch1 && !checkSwitch2 && !checkSwitch3){
                     Toast.makeText(AddCourse.this, "Select At Least One Semester", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-
+                prerequisites.add(0, "*");
                 HashMap<String, Object> courseMap = new HashMap<>();
                 courseMap.put("Prerequisites", prerequisites);
                 courseMap.put("Subject", subject);
@@ -189,7 +185,7 @@ public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSe
                         prerequisites.clear();
                         semester.clear();
                         Toast.makeText(AddCourse.this, "Added Course", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(), admin_main.class));
+                        startActivity(new Intent(getApplicationContext(), com.example.admintoolsUTSC.Admin_view_course.class));
                     }
 
 
