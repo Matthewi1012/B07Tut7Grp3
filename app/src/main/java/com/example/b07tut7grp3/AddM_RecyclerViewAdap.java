@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,12 +25,15 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
-public class AddM_RecyclerViewAdap extends RecyclerView.Adapter<AddM_RecyclerViewAdap.MyAddViewHolder> {
+public class AddM_RecyclerViewAdap extends RecyclerView.Adapter<AddM_RecyclerViewAdap.MyAddViewHolder> implements Filterable {
 
     Context context;
     ArrayList<AddListModel> adminCourses;
+    ArrayList<AddListModel> adminCoursesFull;
     SharedPreferences sharedPreferences;
     DatabaseReference dbref;
     Student student;
@@ -36,6 +41,7 @@ public class AddM_RecyclerViewAdap extends RecyclerView.Adapter<AddM_RecyclerVie
     public AddM_RecyclerViewAdap(Context context, ArrayList<AddListModel> adminCourses) {
         this.context = context;
         this.adminCourses = adminCourses;
+        adminCoursesFull = new ArrayList<>(adminCourses);
     }
 
     @NonNull
@@ -85,6 +91,38 @@ public class AddM_RecyclerViewAdap extends RecyclerView.Adapter<AddM_RecyclerVie
     public int getItemCount() {
         return adminCourses.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+
+    public Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<AddListModel> filtered = new ArrayList<>();
+            if(charSequence == null || charSequence.length() == 0){
+                filtered.addAll(adminCoursesFull);
+            }else {
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+                for(AddListModel i: adminCoursesFull){
+                    if(i.getCourseId().toLowerCase().contains(filterPattern)){
+                        filtered.add(i);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filtered;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            adminCourses.clear();
+            adminCourses.addAll((List) filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
 
     public static class MyAddViewHolder extends RecyclerView.ViewHolder {
 
