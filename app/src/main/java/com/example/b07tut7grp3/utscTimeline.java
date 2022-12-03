@@ -28,23 +28,22 @@ public class utscTimeline {
         map = new HashMap<>();
         for(int i = 0; i<plannedCourses.size(); i++)
             map.put(plannedCourses.get(i), i);
-        for(int i = 0; i<plannedCourses.size(); i++){
-            int finalI = i;
-            dbref.child(plannedCourses.get(i)).child("Prerequisites")
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for(DataSnapshot j : snapshot.getChildren()){
+        dbref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(int i = 0; i<plannedCourses.size(); i++){
+                    DataSnapshot sub_snap = snapshot.child(plannedCourses.get(i))
+                            .child("Prerequisites");
+                    for(DataSnapshot j : sub_snap.getChildren()){
                         String str = j.getValue().toString();
-                        if(plannedCourses.contains(str)){
-                            adj_list[map.get(str)].add(map.get(plannedCourses.get(finalI)));
-                        }
+                        if(plannedCourses.contains(str)) adj_list[map.get(str)]
+                                .add(map.get(plannedCourses.get(i)));
                     }
                 }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                }});
-        }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
     }
 
     /**

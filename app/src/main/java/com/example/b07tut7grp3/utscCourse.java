@@ -84,4 +84,8 @@ public final class utscCourse implements Course{
         if((!(obj instanceof utscCourse)))return false;
         return this.course_id.equals(((utscCourse) obj).getCourseId());
     }
+    @Override
+    public String toString(){
+        return getCourseId();
+    }
 }
