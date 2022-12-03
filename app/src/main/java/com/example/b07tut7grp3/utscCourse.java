@@ -15,7 +15,8 @@ public final class utscCourse implements Course{
     private final Subject subject;
     private final String course_name;
 
-    public utscCourse(String course_id, List<String> prerequisites, List<Semester> semester, Subject subject, String course_name) {
+    public utscCourse(String course_id, List<String> prerequisites,
+                      List<Semester> semester, Subject subject, String course_name) {
         this.course_id = course_id;
         this.prerequisites = prerequisites;
         this.semester = semester;
@@ -41,7 +42,7 @@ public final class utscCourse implements Course{
         this.course_name = data.child("Name").getValue().toString();
         if(courseInfo.hasChild("Prerequisites")) {
             for (DataSnapshot i : courseInfo.child("Prerequisites").getChildren())
-                prerequisites.add(i.getValue().toString());
+                if(!i.getValue().toString().equals("*"))prerequisites.add(i.getValue().toString());
         }
         semester = new ArrayList<>();
         for(DataSnapshot i : courseInfo.child("Semesters").getChildren())
