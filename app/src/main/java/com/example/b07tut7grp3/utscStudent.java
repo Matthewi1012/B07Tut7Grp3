@@ -109,8 +109,7 @@ public final class utscStudent extends Student{
         if(plannedCourses.isEmpty()) plannedCourses.add("*");
         detailsMap.put("coursesTaken", coursesTaken);
         detailsMap.put("plannedCourses", plannedCourses);
-        userMap.put(username, detailsMap);
-        dbref.setValue(userMap, new DatabaseReference.CompletionListener() {
+        dbref.setValue(detailsMap, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error,
                                    @NonNull DatabaseReference ref) {
