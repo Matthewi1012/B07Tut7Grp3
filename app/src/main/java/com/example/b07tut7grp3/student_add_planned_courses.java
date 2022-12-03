@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.admintoolsUTSC.admin_main;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -133,11 +135,13 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
                     return;
                 }
                 String c = eligibleCourseList.getSelectedItem().toString();
+                if (plannedCourses.contains(c)){
+                    Toast.makeText(student_add_planned_courses.this, "Course already in planner", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 plannedCourses.add(c);
                 planned.add(new plannedCourse(c));
-                courses.remove(c);
                 courseArrayAdapter.notifyDataSetChanged();
-                adapter.notifyDataSetChanged();
                 Toast.makeText(student_add_planned_courses.this, "Added Course", Toast.LENGTH_SHORT).show();
             }
         });
@@ -146,12 +150,10 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
             @Override
             public void onItemClick(int position) {
 
-                courses.add(plannedCourses.get(position));
                 planned.remove(planned.get(position));
                 plannedCourses.remove(position);
                 System.out.println(plannedCourses);
                 courseArrayAdapter.notifyItemRemoved(position);
-                adapter.notifyDataSetChanged();
                 Toast.makeText(student_add_planned_courses.this, "Removed Course", Toast.LENGTH_SHORT).show();
 
             }
