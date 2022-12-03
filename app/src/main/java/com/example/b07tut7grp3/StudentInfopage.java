@@ -44,25 +44,27 @@ public class StudentInfopage extends AppCompatActivity implements AdapterView.On
         username=findViewById(R.id.username);
         getstarted=findViewById(R.id.button);
 
-        String FirstName=first_name.getText().toString();
-        String LastName=last_name.getText().toString();
-        String Email=email.getText().toString();
-        String UserName=username.getText().toString();
-        String Currentyear = currentyear.getText().toString();
-        if (Currentyear != null && !Currentyear.equals("")){
-            Currentyear = currentyear.getText().toString();
-        }else{
-            Currentyear = "1";
-        }
 
-        int Year=Integer.parseInt(Currentyear);
-
-        String POStname=POStspinner.getSelectedItem().toString();
-        Subject currentpost=Subject.getValue(POStname);
 
         getstarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String FirstName=first_name.getText().toString();
+                String LastName=last_name.getText().toString();
+                String Email=email.getText().toString();
+                String UserName=username.getText().toString();
+                String Currentyear = currentyear.getText().toString();
+                if (Currentyear != null && !Currentyear.equals("")){
+                    Currentyear = currentyear.getText().toString();
+                }else{
+                    Currentyear = "1";
+                }
+
+                int Year=Integer.parseInt(Currentyear);
+
+                String POStname=POStspinner.getSelectedItem().toString();
+                Subject currentpost=Subject.getValue(POStname);
+
                 utscStudent newStudent = new utscStudent(FirstName, LastName, Year,
                         currentpost, Email, UserName);
                 sendUserToNextActivity();
