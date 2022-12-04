@@ -44,7 +44,6 @@ public class utscTimeline {
             DataSnapshot sub_snap = snapshot.child(plannedCourses.get(i))
                     .child("Prerequisites");
             for(DataSnapshot j : sub_snap.getChildren()){
-                System.out.println(j.getValue().getClass());
                 String str = j.getValue().toString();
                 if(plannedCourses.contains(str)) adj_list[map.get(str)]
                         .add(map.get(plannedCourses.get(i)));
