@@ -80,6 +80,7 @@ public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSe
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
+
         AddPrereqBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,7 +92,11 @@ public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSe
                     return;
                 }else if (prerequisite.equals(courseCode.getText().toString().toUpperCase())) {
                     prereqs.setError("Prerequisite cannot be the same as course code");
-                    Toast.makeText(AddCourse.this, "Invalid Course", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddCourse.this, "Prerequisite matches course code", Toast.LENGTH_SHORT).show();
+                    return;
+                }else if (prerequisites.contains(prerequisite)){
+                    prereqs.setError("Prerequisite already exists");
+                    Toast.makeText(AddCourse.this, "Prerequisite already exists", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 prerequisites.add(prerequisite);
