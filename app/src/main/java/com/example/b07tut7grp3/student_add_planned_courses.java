@@ -39,6 +39,7 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
     RecyclerView recyclerView;
     Button AddCourseBtn;
     Button saveBtn;
+    Button timeline;
 
     String uid =  FirebaseAuth.getInstance().getUid();
     @Override
@@ -53,6 +54,7 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
         planned = new ArrayList<>();
         AddCourseBtn = findViewById(R.id.button);
         saveBtn = findViewById(R.id.saveButton);
+        timeline = findViewById(R.id.genTimelineButton);
 
         plannedCourseAdapter courseArrayAdapter = new plannedCourseAdapter(R.layout.plannedcourses_row, planned);
         recyclerView = (RecyclerView) findViewById(R.id.plannedCourseList);
@@ -176,6 +178,13 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
                         Toast.makeText(student_add_planned_courses.this, "Saved Changes", Toast.LENGTH_SHORT).show();
                     }
                 });
+            }
+        });
+
+        timeline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(student_add_planned_courses.this, "DELETE THIS", Toast.LENGTH_SHORT).show();
             }
         });
 
