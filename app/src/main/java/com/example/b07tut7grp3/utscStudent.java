@@ -7,6 +7,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -119,11 +120,6 @@ public final class utscStudent extends Student{
         });
     }
 
-    /**
-     * An implementation of the updateCourses abstract method, updates the plannedCourses
-     * and coursesTaken fields
-     * @param dbref a DatabaseReference to Root/Users/Students
-     */
     @Override
     protected void updateCourses(DatabaseReference dbref){
         dbref = dbref.child("utscStudents").child(username);

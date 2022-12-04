@@ -56,7 +56,8 @@ public class view_courseline extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_courseline);
 
-        sharedPreferences = getApplicationContext().getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
+        sharedPreferences = getApplicationContext()
+                .getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
         userID = sharedPreferences.getString("user","");
 
         recyclerView = findViewById(R.id.course);
@@ -79,50 +80,48 @@ public class view_courseline extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 //student = snapshot.getValue(utscStudent.class);
-                getPlannedCourses(new UserListCallback() {
-                    @Override
-                    public void onCallback(List<String> ordered_timeline) {
+                getPlannedCourses(ordered_timeline ->
                         FirebaseDatabase.getInstance().getReference("Courses")
-                                .addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        .addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot1) {
 
-                                        System.out.println(snapshot);
-                                        list.clear();
+                                System.out.println(snapshot1);
+                                list.clear();
 
-                                        // create a list of course to take
-                                        HashMap<String, Course> needToTake = new HashMap<>();
-                                        for (String code : ordered_timeline) {
-                                            try {
-                                                Course course = new utscCourse(snapshot, code);
-                                                System.out.println("----------");
-                                                System.out.println(code);
-                                                System.out.println(course);
-                                                System.out.println("----------");
-                                                needToTake.put(code, course);
-                                            } catch (ExceptionMessage e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
+                                // create a list of course to take
+                                HashMap<String, Course> needToTake = new HashMap<>();
+                                for (String code : ordered_timeline) {
+                                    try {
+                                        Course course = new utscCourse(snapshot1, code);
+                                        System.out.println("----------");
+                                        System.out.println(code);
+                                        System.out.println(course);
+                                        System.out.println("----------");
+                                        needToTake.put(code, course);
+                                    } catch (ExceptionMessage e) {
+                                        e.printStackTrace();
+                                    }
+                                }
 
 
-                                        List<String> taken = new ArrayList<>(student.coursesTaken);
-                                        List<String> newTaken = new ArrayList<>();
+                                List<String> taken = new ArrayList<>(student.coursesTaken);
+                                List<String> newTaken = new ArrayList<>();
 
-                                        int currYear = year;
-                                        Semester currSemester = semester;
+                                int currYear = year;
+                                Semester currSemester = semester;
 
-                                        // remove all the taken course
-                                        List<String> keys = new ArrayList<>(needToTake.keySet());
-                                        for (String code: keys) {
-                                            if (taken.contains(code))
-                                                needToTake.remove(code);
-                                        }
+                                // remove all the taken course
+                                List<String> keys = new ArrayList<>(needToTake.keySet());
+                                for (String code: keys) {
+                                    if (taken.contains(code))
+                                        needToTake.remove(code);
+                                }
 
-                                        System.out.println(needToTake.size());
-                                        while (needToTake.size() > 0) {
+                                System.out.println(needToTake.size());
+                                while (needToTake.size() > 0) {
 
-                                            for (Course course : needToTake.values()) {
+                                    for (Course course : needToTake.values()) {
 //                                        System.out.println("ID: " + course.getCourseId());
 //
 //                                        System.out.println("PRE: ");
@@ -134,57 +133,57 @@ public class view_courseline extends AppCompatActivity {
 //                                            System.out.println(sem);
 
 
-                                                boolean hasAllPre = taken.containsAll(course.getPrerequisites());
-                                                boolean hasOffer = course.getSemester().contains(currSemester);
+                                        boolean hasAllPre = taken
+                                                .containsAll(course.getPrerequisites());
+                                        boolean hasOffer = course.getSemester()
+                                                .contains(currSemester);
 
-                                                if (hasAllPre && hasOffer) {
-                                                    newTaken.add(course.getCourseId());
-                                                }
-                                            }
-
-                                            System.out.println(currYear + " " + currSemester + " " + newTaken.size());
-
-                                            // add a new row to TABLE 2
-                                            list.add(new courseline(currYear, currSemester, newTaken));
-
-                                            // remove all the new taken courses from needTOTake
-                                            for (String takenCode : newTaken)
-                                                needToTake.remove(takenCode);
-
-                                            //
-                                            taken.addAll(newTaken);
-                                            newTaken.clear();
-
-                                            // update to next session
-                                            if (currSemester == Semester.FALL) {
-                                                currSemester = Semester.WINTER;
-                                                currYear += 1;
-                                            }
-                                            else if (currSemester == Semester.WINTER)
-                                                currSemester = Semester.SUMMER;
-                                            else if (currSemester == Semester.SUMMER)
-                                                currSemester = Semester.FALL;
-
+                                        if (hasAllPre && hasOffer) {
+                                            newTaken.add(course.getCourseId());
                                         }
+                                    }
 
-                                        Adapter.notifyDataSetChanged();
+                                    System.out.println(currYear + " " + currSemester + " "
+                                            + newTaken.size());
+
+                                    // add a new row to TABLE 2
+                                    list.add(new courseline(currYear, currSemester, newTaken));
+
+                                    // remove all the new taken courses from needTOTake
+                                    for (String takenCode : newTaken)
+                                        needToTake.remove(takenCode);
+
+                                    //
+                                    taken.addAll(newTaken);
+                                    newTaken.clear();
+
+                                    // update to next session
+                                    if (currSemester == Semester.FALL) {
+                                        currSemester = Semester.WINTER;
+                                        currYear += 1;
+                                    }
+                                    else if (currSemester == Semester.WINTER)
+                                        currSemester = Semester.SUMMER;
+                                    else if (currSemester == Semester.SUMMER)
+                                        currSemester = Semester.FALL;
+
+                                }
+
+                                Adapter.notifyDataSetChanged();
 //                                System.out.println("===================================");
 //                                for (courseline cl : list)
 //                                    System.out.println(cl.session + " " + cl.courses);
 //                                System.out.println("===================================");
-                                    }
+                            }
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {}
-                                });
-                    }
-                });
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {}
+                        }));
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
-
         });
 
 
