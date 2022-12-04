@@ -3,6 +3,13 @@ package com.example.b07tut7grp3;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * An abstract module for storing and obtaining data about student users
+ * Contains information such as name, courses taken, planned courses,
+ * current year, and current school
+ * @author Ziming Wang
+ */
 public class courseline {
 
     public String session;
