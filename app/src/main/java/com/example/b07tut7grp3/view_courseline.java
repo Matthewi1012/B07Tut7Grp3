@@ -153,10 +153,7 @@ public class view_courseline extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         student = new utscStudent(snapshot);
-                        utscTimeline timeline = new utscTimeline(student.getPlannedCourses());
-                        System.out.println(student.getPlannedCourses());
-                        List<String> ordered_timeline = timeline.topological_sort();
-                        displayInfo(ordered_timeline);
+                        displayInfo(student.getPlannedCourses());
                     }
 
                     @Override
