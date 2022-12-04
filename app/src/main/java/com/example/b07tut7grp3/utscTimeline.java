@@ -2,6 +2,7 @@ package com.example.b07tut7grp3;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,22 +29,18 @@ public class utscTimeline {
         map = new HashMap<>();
         for(int i = 0; i<plannedCourses.size(); i++)
             map.put(plannedCourses.get(i), i);
-        dbref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(int i = 0; i<plannedCourses.size(); i++){
-                    DataSnapshot sub_snap = snapshot.child(plannedCourses.get(i))
-                            .child("Prerequisites");
-                    for(DataSnapshot j : sub_snap.getChildren()){
-                        String str = j.getValue().toString();
-                        if(plannedCourses.contains(str)) adj_list[map.get(str)]
-                                .add(map.get(plannedCourses.get(i)));
-                    }
-                }
+        Task<DataSnapshot> task = dbref.get();
+        DataSnapshot snapshot = task.getResult();
+        for(int i = 0; i<plannedCourses.size(); i++){
+            DataSnapshot sub_snap = snapshot.child(plannedCourses.get(i))
+                    .child("Prerequisites");
+            for(DataSnapshot j : sub_snap.getChildren()){
+                System.out.println(j.getValue().getClass());
+                String str = j.getValue().toString();
+                if(plannedCourses.contains(str)) adj_list[map.get(str)]
+                        .add(map.get(plannedCourses.get(i)));
             }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
-        });
+        }
     }
 
     /**
