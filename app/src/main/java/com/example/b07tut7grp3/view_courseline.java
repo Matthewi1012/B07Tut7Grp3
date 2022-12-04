@@ -51,7 +51,6 @@ public class view_courseline extends AppCompatActivity {
         });
     }
     private void displayInfo(List<String> ordered_timeline, DataSnapshot snapshot){
-        list.clear();
         // create a list of course to take
         HashMap<String, Course> needToTake = new HashMap<>();
         for (String code : ordered_timeline) {
