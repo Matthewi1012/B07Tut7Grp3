@@ -1,15 +1,13 @@
 package com.example.b07tut7grp3;
 
-import androidx.annotation.NonNull;
-
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 public class utscTimeline {
     private int v; // # of vertices or planned courses
@@ -30,6 +28,13 @@ public class utscTimeline {
         for(int i = 0; i<plannedCourses.size(); i++)
             map.put(plannedCourses.get(i), i);
         Task<DataSnapshot> task = dbref.get();
+        try {
+            Tasks.await(task);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         DataSnapshot snapshot = task.getResult();
         for(int i = 0; i<plannedCourses.size(); i++){
             DataSnapshot sub_snap = snapshot.child(plannedCourses.get(i))
