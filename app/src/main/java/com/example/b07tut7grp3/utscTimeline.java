@@ -8,6 +8,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.*;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class utscTimeline {
     private int v; // # of vertices or planned courses
@@ -29,10 +31,12 @@ public class utscTimeline {
             map.put(plannedCourses.get(i), i);
         Task<DataSnapshot> task = dbref.get();
         try {
-            Tasks.await(task);
+            Tasks.await(task, 1000, TimeUnit.MILLISECONDS);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
             e.printStackTrace();
         }
         DataSnapshot snapshot = task.getResult();
