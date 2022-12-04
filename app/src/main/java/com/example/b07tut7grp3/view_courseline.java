@@ -49,7 +49,7 @@ public class view_courseline extends AppCompatActivity {
     int year = 2022;
     Semester semester = Semester.FALL;
 
-    private void displayInfo(List<String> ordered_timeline){
+    private void displayInfo(List<String> ordered_timeline) {
         FirebaseDatabase.getInstance().getReference("Courses")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -82,14 +82,13 @@ public class view_courseline extends AppCompatActivity {
 
                         // remove all the taken course
                         List<String> keys = new ArrayList<>(needToTake.keySet());
-                        for (String code: keys) {
+                        for (String code : keys) {
                             if (taken.contains(code))
                                 needToTake.remove(code);
                         }
 
                         System.out.println(needToTake.size());
                         while (needToTake.size() > 0) {
-
                             for (Course course : needToTake.values()) {
 //                                        System.out.println("ID: " + course.getCourseId());
 //
@@ -127,8 +126,7 @@ public class view_courseline extends AppCompatActivity {
                             if (currSemester == Semester.FALL) {
                                 currSemester = Semester.WINTER;
                                 currYear += 1;
-                            }
-                            else if (currSemester == Semester.WINTER)
+                            } else if (currSemester == Semester.WINTER)
                                 currSemester = Semester.SUMMER;
                             else if (currSemester == Semester.SUMMER)
                                 currSemester = Semester.FALL;
@@ -143,7 +141,27 @@ public class view_courseline extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {}
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }});
+    }
+    private void generateTimeline(){
+        FirebaseDatabase.getInstance()
+                .getReference("Users").child("Students")
+                .child("utscStudents").child(userID)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        student = new utscStudent(snapshot);
+                        utscTimeline timeline = new utscTimeline(student.getPlannedCourses());
+                        System.out.println(student.getPlannedCourses());
+                        List<String> ordered_timeline = timeline.topological_sort();
+                        displayInfo(ordered_timeline);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
                 });
     }
     @Override
@@ -153,7 +171,7 @@ public class view_courseline extends AppCompatActivity {
         setContentView(R.layout.activity_view_courseline);
 
         sharedPreferences = getApplicationContext().getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
-        userID = sharedPreferences.getString("user","");
+        userID = sharedPreferences.getString("user", "");
 
         recyclerView = findViewById(R.id.course);
         recyclerView.setHasFixedSize(true);
@@ -165,100 +183,6 @@ public class view_courseline extends AppCompatActivity {
         recyclerView.setAdapter(Adapter);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(view_courseline.this));
-
-
-        FirebaseDatabase.getInstance()
-                .getReference("Users").child("Students")
-                .child("utscStudents").child(userID)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                student = new utscStudent(snapshot);
-                utscTimeline timeline = new utscTimeline(student.getPlannedCourses());
-                System.out.println(student.getPlannedCourses());
-                List<String> ordered_timeline = timeline.topological_sort();
-                displayInfo(ordered_timeline);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
-        });
+        generateTimeline();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_view_courseline);
-//        sharedPreferences = getApplicationContext().getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
-//        userID = sharedPreferences.getString("user","");
-//
-//
-//        getSupportActionBar().setTitle("Courses Taken");
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        DatabaseReference dbref = FirebaseDatabase.getInstance()
-//                .getReference().getRoot();
-//        dbref.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                list.clear();
-//                recyclerView = findViewById(R.id.course);
-//                student = new utscStudent(snapshot.child("Users").child("Students").child("utscStudents").child(userID));
-//
-//
-//                for(int i = 0; i < student.coursesTaken.size(); i++){
-//                    if(snapshot.child("Courses").hasChild(student.coursesTaken.get(i))){
-//                        subject = Subject.valueOf(snapshot.child("Courses").child(student.coursesTaken.get(i)).child("Subject").getValue().toString());
-//                        courseName = snapshot.child("Courses").child(student.coursesTaken.get(i)).child("Name").getValue().toString();
-//
-//                        list.add(new TakenListModel(student.coursesTaken.get(i),courseName, subject.toString()));
-//                    }
-//                }
-//                Adapter = new TakenM_RecyclerViewAdap(StudentCoursesTaken.this, list);
-//                recyclerView.setAdapter(Adapter);
-//                recyclerView.setLayoutManager(new LinearLayoutManager(StudentCoursesTaken.this));
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {}
-//        });
-//    }
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
 }
