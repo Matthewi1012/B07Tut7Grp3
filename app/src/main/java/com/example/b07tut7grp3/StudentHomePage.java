@@ -45,7 +45,7 @@ public class StudentHomePage extends AppCompatActivity {
     CardView toTaken;
     CardView toTimeline;
 
-    @SuppressLint("MissingInflatedId")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
