@@ -29,7 +29,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Admin_view_course extends AppCompatActivity implements itemclick{
 
     List<String> courselist;
@@ -113,7 +112,7 @@ public class Admin_view_course extends AppCompatActivity implements itemclick{
 
 
 
-        }
+    }
 
 
     @Override
