@@ -37,9 +37,9 @@ public class view_courseline extends AppCompatActivity {
     int year = 2022;
     Semester semester = Semester.FALL;
 
-    private void getPlannedCourses(final UserListCallback callback){
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("Users")
-                .child("Students").child("utscStudents").child(userID);
+    private void getPlannedCourses(UserListCallback callback){
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference().getRoot()
+                .child("Users").child("Students").child("utscStudents").child(userID);
         db.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -118,7 +118,8 @@ public class view_courseline extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_courseline);
 
-        sharedPreferences = getApplicationContext().getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
+        sharedPreferences = getApplicationContext()
+                .getSharedPreferences("sharedPref", Context.MODE_PRIVATE);
         userID = sharedPreferences.getString("user","");
 
         recyclerView = findViewById(R.id.course);
@@ -131,35 +132,20 @@ public class view_courseline extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(view_courseline.this));
 
-
-        FirebaseDatabase.getInstance()
-                .getReference("Users").child("Students")
-                .child("utscStudents").child(userID)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-
+        getPlannedCourses(new UserListCallback() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                getPlannedCourses(new UserListCallback() {
-                    @Override
-                    public void onCallback(List<String> ordered_timeline) {
-                        FirebaseDatabase.getInstance().getReference("Courses")
-                                .addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        displayInfo(ordered_timeline, snapshot);
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {}
-                                });
-                    }
-                });
-
+            public void onCallback(List<String> ordered_timeline) {
+                FirebaseDatabase.getInstance().getReference("Courses")
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                displayInfo(ordered_timeline, snapshot);
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {}
+                        });
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
         });
+
     }
 }
