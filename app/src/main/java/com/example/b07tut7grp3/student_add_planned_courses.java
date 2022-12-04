@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.admintoolsUTSC.Admin_Login;
 import com.example.admintoolsUTSC.admin_main;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -184,7 +185,7 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
         timeline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(student_add_planned_courses.this, "DELETE THIS", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), view_courseline.class));
             }
         });
 
