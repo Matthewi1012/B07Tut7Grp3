@@ -1,33 +1,22 @@
 package com.example.b07tut7grp3;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class courseline {
 
+    public String session;
+    public String courses;
 
-    public courseline(String Subject, String courseName, String Name, String Prerequisites){
-        this.Subject = Subject;
-        this.courseName = courseName;
-        this.Prerequisites = Prerequisites;
-        this.Name = Name;
+    public courseline(int year, Semester semester, List<String> courses){
+        this.session = year + " " + semester;
+        this.courses = String.join(",", courses);
     }
 
-
-    String courseName;
-    public String getCourseName(){
-        return courseName;
+    public String getsession(){
+        return session;
     }
-
-    String Subject;
-    public String getSubject(){
-        return Subject;
-    }
-
-    String Name;
-    public String getName(){
-        return Name;
-    }
-
-    String Prerequisites;
-    public String getPrerequisites(){
-        return Prerequisites;
+    public String getcourses(){
+        return courses;
     }
 }

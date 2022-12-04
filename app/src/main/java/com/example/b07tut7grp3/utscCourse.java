@@ -39,13 +39,13 @@ public final class utscCourse implements Course{
         this.subject = Subject.valueOf((String)(courseInfo.child("Subject").getValue()));
         prerequisites = new ArrayList<>();
 
-        this.course_name = data.child("Name").getValue().toString();
+        this.course_name = courseInfo.child("Name").getValue().toString();
         if(courseInfo.hasChild("Prerequisites")) {
             for (DataSnapshot i : courseInfo.child("Prerequisites").getChildren())
                 if(!i.getValue().toString().equals("*"))prerequisites.add(i.getValue().toString());
         }
         semester = new ArrayList<>();
-        for(DataSnapshot i : courseInfo.child("Semesters").getChildren())
+        for(DataSnapshot i : courseInfo.child("Semester").getChildren())
             semester.add(Semester.valueOf(i.getValue().toString()));
     }
 
@@ -89,3 +89,5 @@ public final class utscCourse implements Course{
         return getCourseId();
     }
 }
+
+//poi

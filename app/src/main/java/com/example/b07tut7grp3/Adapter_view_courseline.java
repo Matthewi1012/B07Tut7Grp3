@@ -38,10 +38,9 @@ public class Adapter_view_courseline extends RecyclerView.Adapter<Adapter_view_c
     @Override
     public void onBindViewHolder(@NonNull Adapter_view_courseline.courseline_ViewHolder holder, int position) {
         courseline courseline = list.get(position);
-        holder.courseName.setText(courseline.getCourseName());
-        holder.Subject.setText(courseline.getSubject());
-        holder.Name.setText(courseline.getName());
-        holder.Prerequisites.setText(courseline.getPrerequisites());
+        holder.session.setText(courseline.getsession());
+        holder.courses.setText(courseline.getcourses());
+
 
     }
 
@@ -59,15 +58,14 @@ public class Adapter_view_courseline extends RecyclerView.Adapter<Adapter_view_c
 
     public static class courseline_ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView courseName, Subject, Name, Prerequisites;
+        TextView courses, session;
 
         public courseline_ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            courseName = itemView.findViewById(R.id.course_id);
-            Subject = itemView.findViewById(R.id.subject_txt);
-            Name = itemView.findViewById(R.id.course_name);
-            Prerequisites = itemView.findViewById(R.id.prereq_txt);
+            courses = itemView.findViewById(R.id.course_name);
+            session = itemView.findViewById(R.id.semester);
+
 
         }
     }

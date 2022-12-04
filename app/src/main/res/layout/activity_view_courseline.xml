@@ -20,10 +20,10 @@
 
     <TextView
         android:id="@+id/text"
-        android:layout_width="388dp"
+        android:layout_width="389dp"
         android:layout_height="64dp"
         android:fontFamily="@font/caudex_bold"
-        android:text="Course Manager"
+        android:text="Course Timeliner"
         android:textColor="@color/black"
         android:textSize="50sp"
         android:textStyle="bold"
