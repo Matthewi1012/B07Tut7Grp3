@@ -1,26 +1,13 @@
 package com.example.b07tut7grp3;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.admintoolsUTSC.Adapter;
-import com.example.admintoolsUTSC.AddCourse;
-import com.example.admintoolsUTSC.Course_admin;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,12 +29,27 @@ public class view_courseline extends AppCompatActivity {
     private String userID;
     private utscStudent student;
 
-
+    Subject subject;
+    String courseName;
+    String Name;
+    String Prerequisites;
 
     int year = 2022;
     Semester semester = Semester.FALL;
 
-
+    private void getPlannedCourses(final UserListCallback callback){
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("Users")
+                .child("Students").child("utscStudents").child(userID);
+        db.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                student = new utscStudent(snapshot);
+                callback.onCallback(student.getPlannedCourses());
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -61,10 +63,6 @@ public class view_courseline extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-
-
-
         list = new ArrayList<>();
         Adapter = new Adapter_view_courseline(this, list);
         recyclerView.setAdapter(Adapter);
@@ -77,28 +75,18 @@ public class view_courseline extends AppCompatActivity {
                 .child("utscStudents").child(userID)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
 
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                //student = snapshot.getValue(utscStudent.class);
+                getPlannedCourses(new UserListCallback() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                        // student = snapshot.getValue(utscStudent.class);
-                        student = new utscStudent(snapshot);
-
-
-
-                        utscTimeline timeline = new utscTimeline(student.plannedCourses);
-//                        List<String> ordered_timeline = timeline.topological_sort();
-//                        List<String> ordered_timeline = student.getPlannedCourses();
-
-                        List<String> ordered_timeline = new ArrayList<>();
-                        ordered_timeline.add("CSCB07");
-                        ordered_timeline.add("CSCA48");
-                        ordered_timeline.add("CSCA08");
-
+                    public void onCallback(List<String> ordered_timeline) {
                         FirebaseDatabase.getInstance().getReference("Courses")
                                 .addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        System.out.println("snapshot");
+
                                         System.out.println(snapshot);
                                         list.clear();
 
@@ -108,8 +96,8 @@ public class view_courseline extends AppCompatActivity {
                                             try {
                                                 Course course = new utscCourse(snapshot, code);
                                                 System.out.println("----------");
-//                                                System.out.println(code);
-//                                                System.out.println(course);
+                                                System.out.println(code);
+                                                System.out.println(course);
                                                 System.out.println("----------");
                                                 needToTake.put(code, course);
                                             } catch (ExceptionMessage e) {
@@ -178,6 +166,7 @@ public class view_courseline extends AppCompatActivity {
                                                 currSemester = Semester.FALL;
 
                                         }
+
                                         Adapter.notifyDataSetChanged();
 //                                System.out.println("===================================");
 //                                for (courseline cl : list)
@@ -189,11 +178,14 @@ public class view_courseline extends AppCompatActivity {
                                     public void onCancelled(@NonNull DatabaseError error) {}
                                 });
                     }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {}
-
                 });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+
+        });
 
 
     }
