@@ -72,18 +72,7 @@ public class view_courseline extends AppCompatActivity {
 
                 // student = snapshot.getValue(utscStudent.class);
                 student = new utscStudent(snapshot);
-
-
-
-                utscTimeline timeline = new utscTimeline(student.plannedCourses);
-                System.out.println(student.plannedCourses);
-
-//                 List<String> ordered_timeline = timeline.topological_sort();
-
-                List<String> ordered_timeline = new ArrayList<>();
-                ordered_timeline.add("CSCB07");
-                ordered_timeline.add("CSCA48");
-                ordered_timeline.add("CSCA08");
+                List<String> ordered_timeline = student.getPlannedCourses();
 
                 FirebaseDatabase.getInstance().getReference("Courses")
                         .addValueEventListener(new ValueEventListener() {
