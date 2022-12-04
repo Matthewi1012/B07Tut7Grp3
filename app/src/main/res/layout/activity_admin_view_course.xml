@@ -11,8 +11,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/courseList"
-        android:layout_width="443dp"
-        android:layout_height="633dp"
+        android:layout_width="376dp"
+        android:layout_height="755dp"
         app:layout_constraintBottom_toTopOf="@+id/addbutton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -80,7 +80,7 @@ public class StudentInfopage extends AppCompatActivity implements AdapterView.On
                 int Year=Integer.parseInt(Currentyear);
 
                 String POStname=POStspinner.getSelectedItem().toString();
-                Subject currentpost=Subject.getValue(POStname);
+                Subject currentpost=Subject.getProgram(POStname);
 
                 student = new utscStudent(FirstName, LastName, Year,
                         currentpost, Email, userID);

@@ -36,6 +36,10 @@
     <string name="yourusername">User Name</string>
     <string name="getstarted">Get Started</string>
     <string name="selectPOSt">Select your program: </string>
+    <string name="cancel">Back to Course List</string>
+    <string name="saveChanges">Save Changes</string>
+    <string name="deleteCourse">Delete Course</string>
+
 
     <string-array name="POSt_list">
         <item>African Studies</item>

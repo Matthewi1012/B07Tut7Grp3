@@ -1,18 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.admintoolsUTSC.coursemodify_test">
 
 
-
+    <Button
+        android:id="@+id/back_to_avc"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/white"
+        android:text="@string/cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/edit_button"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/homePageGreen"
+        android:text="@string/saveChanges"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/back_to_avc"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/back_to_avc" />
+
+    <Button
+        android:id="@+id/delete_button"
+        android:layout_width="90dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="35dp"
+        android:background="#E62525"
+        android:text="@string/deleteCourse"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edit_button" />
+
+    <EditText
+        android:id="@+id/courseCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="162dp"
-        tools:layout_editor_absoluteY="258dp" />
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:ems="10"
+        android:hint="Course Code"
+        android:inputType="textPersonName"
+        android:maxLength="6"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="@+id/back_to_avc"
+        app:layout_constraintTop_toBottomOf="@+id/back_to_avc" />
+
+    <EditText
+        android:id="@+id/prereq1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:maxLength="6"
+        android:hint="Prerequisites"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@+id/courseName"
+        app:layout_constraintStart_toStartOf="@+id/courseName"
+        app:layout_constraintTop_toBottomOf="@+id/courseName" />
+
+    <EditText
+        android:id="@+id/prereq2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Prerequisites"
+        android:inputType="textPersonName"
+        android:maxLength="6"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@+id/courseName"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/courseName"
+        app:layout_constraintTop_toBottomOf="@+id/prereq1" />
+
+    <EditText
+        android:id="@+id/prereq3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Prerequisites"
+        android:inputType="textPersonName"
+        android:maxLength="6"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@+id/courseName"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/courseName"
+        app:layout_constraintTop_toBottomOf="@+id/prereq2" />
+
+    <Switch
+        android:id="@+id/fall"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="40dp"
+        android:minHeight="48dp"
+        android:text="Fall"
+        android:paddingLeft="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/winter"
+        app:layout_constraintEnd_toStartOf="@+id/winter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/winter"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Switch
+        android:id="@+id/winter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:minHeight="48dp"
+        android:text="Winter"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <Switch
+        android:id="@+id/summer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:minHeight="48dp"
+        android:text="Summer"
+        app:layout_constraintBottom_toBottomOf="@+id/winter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/winter"
+        app:layout_constraintTop_toTopOf="@+id/winter"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/courseName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Course Name"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="@+id/courseCode"
+        app:layout_constraintStart_toStartOf="@+id/courseCode"
+        app:layout_constraintTop_toBottomOf="@+id/courseCode" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Semester"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/prereq1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/prereq1"
+        app:layout_constraintTop_toBottomOf="@+id/prereq3" />
+
+    <Spinner
+        android:id="@+id/postspinner"
+        android:layout_width="374dp"
+        android:layout_height="54dp"
+        android:spinnerMode="dropdown"
+        android:textColor="#222222"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.735"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subject_name"
+        app:layout_constraintVertical_bias="0.057"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/subject_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="Subject"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/winter"
+        app:layout_constraintStart_toStartOf="@+id/winter"
+        app:layout_constraintTop_toBottomOf="@+id/winter" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

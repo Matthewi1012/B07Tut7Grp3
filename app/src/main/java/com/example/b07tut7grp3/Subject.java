@@ -71,7 +71,7 @@ public enum Subject{
     }
 
 
-    static Subject getValue(String postname) {
+    public static Subject getProgram(String postname) {
         if ("African Studies".equals(postname)) { return AFRICAN_STUDIES; }
         else if ("Anthropology".equals(postname)) { return ANTHROPOLOGY; }
         else if ("Applied Microbiology".equals(postname)) { return APPLIED_MICROBIOLOGY; }
