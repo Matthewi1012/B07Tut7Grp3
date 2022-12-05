@@ -24,7 +24,7 @@ public class view_courseline extends AppCompatActivity {
     DatabaseReference database;
     Adapter_view_courseline Adapter;
     ArrayList<courseline> list;
-
+    int i = 0;
     private SharedPreferences sharedPreferences;
     private String userID;
     private utscStudent student;
@@ -58,6 +58,7 @@ public class view_courseline extends AppCompatActivity {
                 Course course = new utscCourse(snapshot, code);
                 System.out.println("----------");
                 System.out.println(code);
+                System.out.println(ordered_timeline.get(0));
                 System.out.println(course);
                 System.out.println("----------");
                 needToTake.put(code, course);
@@ -82,10 +83,15 @@ public class view_courseline extends AppCompatActivity {
 
         System.out.println(needToTake.size());
         while (needToTake.size() > 0) {
+            System.out.println("shimakze"+ needToTake);
 
             for (Course course : needToTake.values()) {
                 boolean hasAllPre = taken.containsAll(course.getPrerequisites());
                 boolean hasOffer = course.getSemester().contains(currSemester);
+
+
+
+
 
                 if (hasAllPre && hasOffer) {
                     newTaken.add(course.getCourseId());
@@ -143,7 +149,9 @@ public class view_courseline extends AppCompatActivity {
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {}
                         });
+                System.out.println("poipoi" + ordered_timeline.size());
             }
+
         });
 
     }
