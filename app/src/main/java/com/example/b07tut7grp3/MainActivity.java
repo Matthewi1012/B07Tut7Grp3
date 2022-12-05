@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.b07tut7grp3.ui.login.Presenter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -22,6 +23,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
+
+    Presenter presenter;
 
     TextView createnewAccount;
     TextView adminLogin;
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     FirebaseAuth mAuth;
     FirebaseUser mUser;
+    Button checkUser;
+    Button checkPassword;
     //please make sure to enable email/password authentication on Firebase!!
 
     @SuppressLint("MissingInflatedId")
@@ -44,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         LoginButton=findViewById(R.id.LoginButton);
         adminLogin = findViewById(R.id.adminLogin);
         progressDialog=new ProgressDialog(this);
+        checkUser = findViewById(R.id.checkUser);
+        checkPassword = findViewById(R.id.checkPassword);
 
         mAuth=FirebaseAuth.getInstance();
         mUser=mAuth.getCurrentUser();
@@ -65,9 +72,22 @@ public class MainActivity extends AppCompatActivity {
         });
         adminLogin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {sendUserToAdminActivity();
+            public void onClick(View view) {
+                sendUserToAdminActivity();
             }
 
+        });
+        checkUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.checkUsername();
+            }
+        });
+        checkPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.checkPassword();
+            }
         });
     }
 
@@ -124,5 +144,25 @@ public class MainActivity extends AppCompatActivity {
         Intent intent=new Intent(MainActivity.this, com.example.admintoolsUTSC.Admin_Login.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+    
+    public void displayMessage(String message) {
+        TextView textView = findViewById(R.id.usernameMesssage);
+        textView.setText(message);
+    }
+
+    public String getUsername() {
+        EditText editText = findViewById(R.id.inputEmail);
+        return editText.getText().toString();
+    }
+
+    public String getPassword() {
+        EditText editText = findViewById(R.id.inputPassword);
+        return editText.getText().toString();
+    }
+
+    public void handleClick(View view){
+        presenter.checkUsername();
+        presenter.checkPassword();
     }
 }

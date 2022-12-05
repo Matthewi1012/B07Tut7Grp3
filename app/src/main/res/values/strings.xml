@@ -39,6 +39,9 @@
     <string name="cancel">Back to Course List</string>
     <string name="saveChanges">Save Changes</string>
     <string name="deleteCourse">Delete Course</string>
+    <string name="emptyMessage"></string>
+    <string name="checkUsername">check user exists</string>
+    <string name="checkPassword">check password</string>
 
 
     <string-array name="POSt_list">

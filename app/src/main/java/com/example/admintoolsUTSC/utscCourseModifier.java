@@ -78,8 +78,6 @@ final class utscCourseModifier {
      * @param to_change the ID of the course to be changed
      */
     public void setCourseID(String id, String to_change){
-//        dbref.child(to_change).setValue(id);
-//        dbref.child(to_change).child("courseName").setValue(id);
         dbref.child(to_change).setValue(id);
         dbref.child(id).child("courseName").setValue(id);
 
