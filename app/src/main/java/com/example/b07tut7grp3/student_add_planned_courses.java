@@ -37,6 +37,7 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
     List<String> courses;
     List<String> completed;
     List<String> plannedCourses;
+    List<String> prereqsLst;
     ArrayList<plannedCourse> planned;
     Spinner eligibleCourseList;
     RecyclerView recyclerView;
@@ -53,6 +54,7 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
         courses = new ArrayList<>();
         completed = new ArrayList<>();
         plannedCourses = new ArrayList<>();
+        prereqsLst = new ArrayList<>();
         eligibleCourseList = findViewById(R.id.coursesList);
         planned = new ArrayList<>();
         AddCourseBtn = findViewById(R.id.button);
@@ -89,7 +91,7 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
                             completed.add(snap.getValue(String.class));
                             //System.out.println(snap.getValue());
                         }
-                        //System.out.println(completed.toString());
+                        System.out.println(completed.toString());
                         courses.removeAll(completed);
 
                         //System.out.println(courses.toString());
@@ -133,12 +135,13 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
         AddCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println(courses.toString());
+
                 if (courses.isEmpty()){
                     Toast.makeText(student_add_planned_courses.this, "Cannot add course", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String c = eligibleCourseList.getSelectedItem().toString();
+
                 if (plannedCourses.contains(c)){
                     Toast.makeText(student_add_planned_courses.this, "Course already in planner", Toast.LENGTH_SHORT).show();
                     return;
@@ -156,7 +159,7 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
 
                 planned.remove(planned.get(position));
                 plannedCourses.remove(position);
-                System.out.println(plannedCourses);
+               // System.out.println(plannedCourses);
                 courseArrayAdapter.notifyItemRemoved(position);
                 Toast.makeText(student_add_planned_courses.this, "Removed Course", Toast.LENGTH_SHORT).show();
 
@@ -172,16 +175,47 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
                 if (plannedCourses.isEmpty()){
                     plannedCourses.add(0, "*");
                 }
-                Collections.sort(plannedCourses);
-                HashMap<String, Object> courseMap = new HashMap<>();
-                courseMap.put("plannedCourses", plannedCourses);
-                DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().getRoot().child("Users").child("Students").child("utscStudents").child(uid);
-                dbref.updateChildren(courseMap, new DatabaseReference.CompletionListener() {
+                String c = eligibleCourseList.getSelectedItem().toString();
+                prereqsLst.clear();
+                DatabaseReference prereqs = FirebaseDatabase.getInstance().getReference().getRoot().child("Courses").child(c).child("Prerequisites");
+                prereqs.addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                        Toast.makeText(student_add_planned_courses.this, "Saved Changes", Toast.LENGTH_SHORT).show();
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot snap: snapshot.getChildren()) {
+                            if (!snap.getValue(String.class).equals("*")) {
+                                prereqsLst.add(snap.getValue(String.class));
+                            }
+                        }
+                        completed.remove("*");
+                        System.out.println(prereqsLst);
+                        System.out.println(completed);
+                        System.out.println(plannedCourses);
+
+
+                        System.out.println(((!completed.containsAll(prereqsLst)) || (!plannedCourses.containsAll(prereqsLst)) )&& !(prereqsLst.isEmpty()));
+                        if (completed.containsAll(prereqsLst) == false && plannedCourses.containsAll(prereqsLst) == false && prereqsLst.isEmpty() == false){
+                            Toast.makeText(student_add_planned_courses.this, "Missing prerequisite", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        Collections.sort(plannedCourses);
+                        HashMap<String, Object> courseMap = new HashMap<>();
+                        courseMap.put("plannedCourses", plannedCourses);
+                        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().getRoot().child("Users").child("Students").child("utscStudents").child(uid);
+                        dbref.updateChildren(courseMap, new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                                Toast.makeText(student_add_planned_courses.this, "Saved Changes", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
                     }
                 });
+
+
             }
         });
 
