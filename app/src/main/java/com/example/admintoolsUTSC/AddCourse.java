@@ -167,7 +167,7 @@ public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSe
                 courses.clear();
 
                 DatabaseReference db = FirebaseDatabase.getInstance().getReference().getRoot().child("Courses");
-                db.addValueEventListener(new ValueEventListener() {
+                db.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot snap: snapshot.getChildren()) {
