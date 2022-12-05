@@ -21,9 +21,11 @@ import com.example.b07tut7grp3.R;
 import com.example.b07tut7grp3.Semester;
 import com.example.b07tut7grp3.Subject;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +42,7 @@ public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSe
     Boolean checkSwitch1 = false;
     Boolean checkSwitch2= false;
     Boolean checkSwitch3 = false;
-
+    List<String> courses;
 
     EditText courseCode, prereqs, courseName;
     Switch fallSW, winterSW,summerSW;
@@ -68,6 +70,7 @@ public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSe
 
         prerequisites = new ArrayList<>();
         semester = new ArrayList<>();
+        courses = new ArrayList<>();
 
 
         for (Subject s : Subject.values()) {
@@ -86,6 +89,7 @@ public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSe
             public void onClick(View view) {
                 String prerequisite;
                 prerequisite = prereqs.getText().toString().toUpperCase();
+
                 if  ((TextUtils.isEmpty(prerequisite)) || (!prerequisite.matches(course))){
                     prereqs.setError("Course must contain 4 letters followed by 2 numbers");
                     Toast.makeText(AddCourse.this, "Invalid Course", Toast.LENGTH_SHORT).show();
@@ -160,44 +164,63 @@ public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSe
                 course_id = courseCode.getText().toString().toUpperCase();
                 course_name = courseName.getText().toString();
                 String subject = spinner.getSelectedItem().toString();
+                courses.clear();
 
-                if (!course_id.matches(course)) {
-                    courseCode.setError("Course must contain 4 letters followed by 2 numbers");
-                    Toast.makeText(AddCourse.this, "Invalid Course Code", Toast.LENGTH_SHORT).show();
-                    return;
-                }else if (TextUtils.isEmpty(course_name)){
-                    courseName.setError("Name cannot be empty");
-                    Toast.makeText(AddCourse.this, "Invalid Course Name", Toast.LENGTH_SHORT).show();
-                    return;
-                }if (!checkSwitch1 && !checkSwitch2 && !checkSwitch3){
-                    Toast.makeText(AddCourse.this, "Select At Least One Semester", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if(prerequisites.isEmpty()){
-                    prerequisites.add(0, "*");
-                }
-                HashMap<String, Object> courseMap = new HashMap<>();
-                courseMap.put("Prerequisites", prerequisites);
-                courseMap.put("Subject", subject);
-                courseMap.put("Name", course_name);
-                courseMap.put("Semester", semester);
-                courseMap.put("courseName", course_id);
-
-                dbref = FirebaseDatabase.getInstance().getReference().getRoot().child("Courses");
-                DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().getRoot().child("Courses");
-                dbref.child(course_id).setValue(courseMap, new DatabaseReference.CompletionListener() {
+                DatabaseReference db = FirebaseDatabase.getInstance().getReference().getRoot().child("Courses");
+                db.addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                        prerequisites.clear();
-                        semester.clear();
-                        Toast.makeText(AddCourse.this, "Added Course", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(), com.example.admintoolsUTSC.Admin_view_course.class));
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot snap: snapshot.getChildren()) {
+                            courses.add(snap.getKey());
+                        }
+                        System.out.println(courses.contains(course_id));
+                        if (courses.contains(course_id)){
+                            courseCode.setError("Course already exists");
+                            Toast.makeText(AddCourse.this, "Course already exists", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        if (!course_id.matches(course)) {
+                            courseCode.setError("Course must contain 4 letters followed by 2 numbers");
+                            Toast.makeText(AddCourse.this, "Invalid Course Code", Toast.LENGTH_SHORT).show();
+                            return;
+                        }else if (TextUtils.isEmpty(course_name)){
+                            courseName.setError("Name cannot be empty");
+                            Toast.makeText(AddCourse.this, "Invalid Course Name", Toast.LENGTH_SHORT).show();
+                            return;
+                        }if (!checkSwitch1 && !checkSwitch2 && !checkSwitch3){
+                            Toast.makeText(AddCourse.this, "Select At Least One Semester", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        if(prerequisites.isEmpty()){
+                            prerequisites.add(0, "*");
+                        }
+                        HashMap<String, Object> courseMap = new HashMap<>();
+                        courseMap.put("Prerequisites", prerequisites);
+                        courseMap.put("Subject", subject);
+                        courseMap.put("Name", course_name);
+                        courseMap.put("Semester", semester);
+                        courseMap.put("courseName", course_id);
+
+                        dbref = FirebaseDatabase.getInstance().getReference().getRoot().child("Courses");
+                        DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().getRoot().child("Courses");
+                        dbref.child(course_id).setValue(courseMap, new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                                prerequisites.clear();
+                                semester.clear();
+                                Toast.makeText(AddCourse.this, "Added Course", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), com.example.admintoolsUTSC.Admin_view_course.class));
+                            }
+                        });
                     }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-            });
-
+                    }
+                });
     }
 });
     }
