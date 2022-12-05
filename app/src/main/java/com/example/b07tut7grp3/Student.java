@@ -12,7 +12,7 @@ import java.util.List;
  * @author Kevin Li
  * @since 0.1
  */
-abstract class Student extends User{
+public abstract class Student extends User{
     /**
      * An abstract method for calculating total credits earned
      * @return the total number of credits earned
@@ -20,7 +20,7 @@ abstract class Student extends User{
     public abstract double getCreditsEarned();
 
     protected String firstName, lastName;
-    protected List<String> coursesTaken;
+    public List<String> coursesTaken;
     protected List<String> plannedCourses;
     protected int currentYear;
     protected String currentSchool;

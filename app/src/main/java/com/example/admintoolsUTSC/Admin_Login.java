@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.b07tut7grp3.R;
@@ -26,6 +27,8 @@ public class Admin_Login extends AppCompatActivity {
     EditText admin_name, password;
     Button Login;
     FirebaseAuth fAuth;
+    private ProgressBar progressBar;
+
 
     FirebaseUser firebaseUser;
     FirebaseDatabase firebaseDatabase;
@@ -63,7 +66,7 @@ public class Admin_Login extends AppCompatActivity {
                         if(task.isSuccessful()){
                             String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
                             DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-
+                            System.out.println(userID);
                             database.child("Users")
                                     .child("Admin")
                                     .child(userID)
@@ -72,11 +75,14 @@ public class Admin_Login extends AppCompatActivity {
                                         public void onDataChange(DataSnapshot dataSnapshot) {
 
                                             if (dataSnapshot.exists()) {
+                                                System.out.println(dataSnapshot);
+                                                System.out.println(userID);
                                                 Toast.makeText(Admin_Login.this, "Logged in", Toast.LENGTH_SHORT).show();
-                                                startActivity(new Intent(Admin_Login.this,
-                                                        Admin_view_course.class));
+                                                goToStudentPage(userID);
+
                                             } else {
-                                                Toast.makeText(Admin_Login.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                                                displayError();
+
                                                 FirebaseAuth.getInstance().signOut();
                                                 startActivity(new Intent(getApplicationContext(), Admin_Login.class));
                                             }
@@ -86,7 +92,7 @@ public class Admin_Login extends AppCompatActivity {
                                         public void onCancelled(DatabaseError databaseError) { }
                                     });
                         }else{
-                            Toast.makeText(Admin_Login.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                            displayError();
                         }
                     }
                 });
@@ -94,5 +100,17 @@ public class Admin_Login extends AppCompatActivity {
             }
     });
 
+    }
+    public void goToStudentPage(String userID) {
+        progressBar.setVisibility(View.GONE);
+        Intent intent = new Intent(Admin_Login.this, Admin_view_course.class);
+        intent.putExtra("userID", userID);
+        startActivity(intent);
+    }
+
+
+    public void displayError() {
+        progressBar.setVisibility(View.GONE);
+        Toast.makeText(Admin_Login.this,"Sorry, unable to login! Please try again", Toast.LENGTH_LONG).show();
     }
 }
