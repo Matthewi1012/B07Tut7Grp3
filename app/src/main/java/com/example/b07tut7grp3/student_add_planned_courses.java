@@ -28,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -38,6 +39,7 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
     List<String> completed;
     List<String> plannedCourses;
     List<String> prereqsLst;
+    List<String> plannedDBLST;
     ArrayList<plannedCourse> planned;
     Spinner eligibleCourseList;
     RecyclerView recyclerView;
@@ -55,6 +57,7 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
         completed = new ArrayList<>();
         plannedCourses = new ArrayList<>();
         prereqsLst = new ArrayList<>();
+        plannedDBLST = new ArrayList<>();
         eligibleCourseList = findViewById(R.id.coursesList);
         planned = new ArrayList<>();
         AddCourseBtn = findViewById(R.id.button);
@@ -102,8 +105,10 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 planned.clear();
                                 plannedCourses.clear();
+                                plannedDBLST.clear();
                                 for (DataSnapshot snap: snapshot.getChildren()) {
                                     if (!snap.getValue(String.class).equals("*")) {
+                                        plannedDBLST.add(snap.getValue(String.class));
                                         plannedCourses.add(snap.getValue(String.class));
                                         planned.add(new plannedCourse(snap.getValue(String.class)));
                                     }
@@ -187,6 +192,7 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
                             }
                         }
                         completed.remove("*");
+                        prereqsLst.removeAll(Arrays.asList(null,""));
                         System.out.println(prereqsLst);
                         System.out.println(completed);
                         System.out.println(plannedCourses);
@@ -222,6 +228,10 @@ public class student_add_planned_courses extends AppCompatActivity implements Ad
         timeline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (plannedDBLST.isEmpty()){
+                    Toast.makeText(student_add_planned_courses.this, "No Courses Added. Add Courses or Click Save Changes To Update", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 startActivity(new Intent(getApplicationContext(), view_courseline.class));
             }
         });
