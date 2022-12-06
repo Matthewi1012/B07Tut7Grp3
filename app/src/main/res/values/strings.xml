@@ -42,6 +42,7 @@
     <string name="emptyMessage"></string>
     <string name="checkUsername">check user exists</string>
     <string name="checkPassword">check password</string>
+    <string name="change_course">change course info</string>
 
 
     <string-array name="POSt_list">

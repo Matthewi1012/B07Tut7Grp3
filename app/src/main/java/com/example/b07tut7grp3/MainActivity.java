@@ -49,9 +49,6 @@ public class MainActivity extends AppCompatActivity {
         LoginButton=findViewById(R.id.LoginButton);
         adminLogin = findViewById(R.id.adminLogin);
         progressDialog=new ProgressDialog(this);
-        checkUser = findViewById(R.id.checkUser);
-        checkPassword = findViewById(R.id.checkPassword);
-
 
         mAuth=FirebaseAuth.getInstance();
         mUser=mAuth.getCurrentUser();
@@ -77,18 +74,6 @@ public class MainActivity extends AppCompatActivity {
                 sendUserToAdminActivity();
             }
 
-        });
-        checkUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.checkUsername();
-            }
-        });
-        checkPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.checkPassword();
-            }
         });
     }
 
@@ -147,8 +132,7 @@ public class MainActivity extends AppCompatActivity {
     }
     
     public void displayMessage(String message) {
-        TextView textView = findViewById(R.id.usernameMesssage);
-        textView.setText(message);
+
     }
 
     public String getUsername() {

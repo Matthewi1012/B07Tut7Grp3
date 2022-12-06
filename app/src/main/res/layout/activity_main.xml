@@ -119,43 +119,6 @@
                 app:layout_constraintStart_toStartOf="@+id/createnewAccount"
                 app:layout_constraintTop_toBottomOf="@+id/createnewAccount" />
 
-            <TextView
-                android:id="@+id/usernameMesssage"
-                android:layout_width="365dp"
-                android:layout_height="30dp"
-                android:text="@string/emptyMessage"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toTopOf="@+id/inputEmail"
-                app:layout_constraintEnd_toEndOf="@+id/inputEmail"
-                app:layout_constraintStart_toStartOf="@+id/inputEmail"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-            <Button
-                android:id="@+id/checkUser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/input_bg"
-                android:text="@string/checkUsername"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/adminLogin"
-                app:layout_constraintHorizontal_bias="0.226"
-                app:layout_constraintStart_toStartOf="@+id/LoginButton"
-                app:layout_constraintTop_toBottomOf="@+id/adminLogin" />
-
-            <Button
-                android:id="@+id/checkPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/input_bg"
-                android:text="@string/checkPassword"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/checkUser"
-                app:layout_constraintEnd_toEndOf="@+id/LoginButton"
-                app:layout_constraintStart_toEndOf="@+id/checkUser"
-                app:layout_constraintTop_toTopOf="@+id/checkUser" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

@@ -59,7 +59,7 @@ public class AddCourse extends AppCompatActivity implements AdapterView.OnItemSe
         courseCode = findViewById(R.id.courseCodeField);
         courseName = findViewById(R.id.courseNameField);
         prereqs = findViewById(R.id.prereqField);
-        addCourseBtn = findViewById(R.id.floatingActionButton3);
+        addCourseBtn = findViewById(R.id.change_button);
         AddPrereqBtn = findViewById(R.id.addPrereq);
         fallSW = findViewById(R.id.fall);
         winterSW = findViewById(R.id.winter);
