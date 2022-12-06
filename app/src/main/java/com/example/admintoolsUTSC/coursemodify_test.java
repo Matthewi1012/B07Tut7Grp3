@@ -194,11 +194,6 @@ public class coursemodify_test extends AppCompatActivity implements AdapterView.
                             courses.add(snap.getKey());
                         }
                         System.out.println(courses.contains(course_id));
-                        if (courses.contains(course_id)){
-                            courseCode.setError("Course already exists");
-                            Toast.makeText(coursemodify_test.this, "Course already exists", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
 
                         if (!course_id.matches(course)) {
                             courseCode.setError("Course must contain 4 letters followed by 2 numbers");
