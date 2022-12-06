@@ -186,13 +186,9 @@ public class coursemodify_test extends AppCompatActivity implements AdapterView.
                 String subject = spinner.getSelectedItem().toString();
                 courses.clear();
 
-                DatabaseReference db = FirebaseDatabase.getInstance().getReference().getRoot().child("Courses");
-                db.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot snap: snapshot.getChildren()) {
-                            courses.add(snap.getKey());
-                        }
+                        String name = getIntent().getStringExtra("courseName");
+                        System.out.println(name);
+
                         System.out.println(courses.contains(course_id));
 
                         if (!course_id.matches(course)) {
@@ -217,6 +213,9 @@ public class coursemodify_test extends AppCompatActivity implements AdapterView.
                         courseMap.put("Name", course_name);
                         courseMap.put("Semester", semester);
                         courseMap.put("courseName", course_id);
+                if (course_id != name){
+                    dbref.child(course_id).setValue(null);
+                }
 
                         dbref = FirebaseDatabase.getInstance().getReference().getRoot().child("Courses");
                         DatabaseReference dbref = FirebaseDatabase.getInstance().getReference().getRoot().child("Courses");
@@ -231,12 +230,6 @@ public class coursemodify_test extends AppCompatActivity implements AdapterView.
                         });
                     }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-            }
         });
     }
 
