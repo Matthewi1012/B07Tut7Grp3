@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         checkUser = findViewById(R.id.checkUser);
         checkPassword = findViewById(R.id.checkPassword);
 
+
         mAuth=FirebaseAuth.getInstance();
         mUser=mAuth.getCurrentUser();
 
@@ -135,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
     }
     private void sendUserToNextActivity() {
         Intent intent=new Intent(MainActivity.this, StudentHomePage.class);
-        //send user to personal info page and then to StudentHomePage.class.
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }

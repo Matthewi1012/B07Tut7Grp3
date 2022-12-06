@@ -21,6 +21,7 @@ import androidx.cardview.widget.CardView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +32,6 @@ import java.io.PrintStream;
 
 public class StudentHomePage extends AppCompatActivity {
 
-    private Button courseListBtn;
     private SharedPreferences sharedPreferences;
     private String userID;
     private utscStudent student;
@@ -104,20 +104,5 @@ public class StudentHomePage extends AppCompatActivity {
     public void openStudentCoursesTaken(){
         Intent intent = new Intent(this, StudentCoursesTaken.class);
         startActivity(intent);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.student_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.logout){
-            startActivity(new Intent(this, MainActivity.class));
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

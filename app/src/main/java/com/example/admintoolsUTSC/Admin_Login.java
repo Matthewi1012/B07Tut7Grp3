@@ -24,7 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class Admin_Login extends AppCompatActivity implements View.OnClickListener{
+public class Admin_Login extends AppCompatActivity{
     EditText admin_name, password;
     Button Login;
     FirebaseAuth fAuth;
@@ -39,129 +39,33 @@ public class Admin_Login extends AppCompatActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_login);
-
+        presenter = new admin_presenter(new admin_model(), this);
         admin_name = findViewById(R.id.inputEmail);
         password = findViewById(R.id.inputPassword);
         fAuth = FirebaseAuth.getInstance();
         Login = findViewById(R.id.LoginButton);
-        Login.setOnClickListener(this);
-        presenter = new admin_presenter(new admin_model(), this);
-    }
-
-
+        Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (view.getId()) {
-
-                    case R.id.LoginButton:
-                        adminLogin();
-                        break;
-
-                }
+                presenter.checkLogin();
             }
+        });
+    }
 
+    public String getEmail(){return admin_name.getText().toString();}
 
-            private void adminLogin() {
-
-
-                String username = admin_name.getText().toString().trim();
-                String pw = password.getText().toString().trim();
-                if(username.isEmpty()) {
-                    admin_name.setError("Email is required");
-                    admin_name.requestFocus();
-                    return;
-                }else if(!Patterns.EMAIL_ADDRESS.matcher(username).matches()) {
-                    admin_name.setError("Please enter a valid email");
-                    return;
-                }
-
-                if(pw.isEmpty()) {
-                    password.setError("Password is required");
-                    password.requestFocus();
-                    return;
-                }
-
-
-
-
-                presenter.login(username, pw);
-
-
-            }
-//            @Override
-//            public void onClick(View view) {
-//                String username = admin_name.getText().toString().trim();
-//                String pw = password.getText().toString().trim();
-//
-//                if (TextUtils.isEmpty(username)){
-//                    admin_name.setError("Username is Required");
-//                    return;
-//                }
-//
-//                if (TextUtils.isEmpty(pw)){
-//                    password.setError("Password is Required");
-//                    return;
-//                }
-//
-//                progressBar.setVisibility(View.VISIBLE);
-//
-//                presenter.login(admin_name, password);
-//
-////                fAuth.signInWithEmailAndPassword(username,pw).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-////                    @Override
-////                    public void onComplete(@NonNull Task<AuthResult> task) {
-////                        if(task.isSuccessful()){
-////                            String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-////                            DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-////                            System.out.println(userID);
-////                            database.child("Users")
-////                                    .child("Admin")
-//                                    .child(userID)
-//                                    .addListenerForSingleValueEvent(new ValueEventListener() {
-//                                        @Override
-//                                        public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                                            if (dataSnapshot.exists()) {
-//                                                System.out.println(dataSnapshot);
-//                                                System.out.println(userID);
-//                                                Toast.makeText(Admin_Login.this, "Logged in", Toast.LENGTH_SHORT).show();
-//                                                presenter.login(userID);
-//
-//                                            } else {
-//                                                displayError();
-//
-//                                                FirebaseAuth.getInstance().signOut();
-//                                                startActivity(new Intent(getApplicationContext(), Admin_Login.class));
-//                                            }
-//                                        }
-//
-//                                        @Override
-//                                        public void onCancelled(DatabaseError databaseError) { }
-//                                    });
-//                        }else{
-//                            displayError();
-//                        }
-//                    }
-//                });
-
-//            }
-//    });
-
-
-            public void goToStudentPage(String userID) {
+    public void goToStudentPage(String userID) {
 
                 Intent intent = new Intent(Admin_Login.this, Admin_view_course.class);
                 intent.putExtra("userID", userID);
                 startActivity(intent);
             }
 
-
-
-            public void displayError() {
-
-                Toast.makeText(Admin_Login.this, "Sorry, unable to login! Please try again", Toast.LENGTH_LONG).show();
+            public void displayError(String str) {
+                Toast.makeText(Admin_Login.this, str, Toast.LENGTH_LONG).show();
             }
 
-    }
+    public String getPw() { return password.getText().toString();}
+}
 
 

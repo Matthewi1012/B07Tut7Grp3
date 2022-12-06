@@ -83,7 +83,7 @@
                 android:id="@+id/timeline_txt"
                 android:layout_width="254dp"
                 android:layout_height="30dp"
-                android:text="Create  A New Timeline"
+                android:text="Create A New Timeline"
                 android:textColor="@color/background"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"

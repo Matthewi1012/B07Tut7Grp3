@@ -53,16 +53,12 @@ public class admin_model {
                                 }
 
                                 @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-
-
-                            });
-
-
+                                public void onCancelled(@NonNull DatabaseError error) { } });
                 }
             }
         });
+    }
+    public boolean isFound(String username) {
+        return "admin@utsc.ca".equals(username);
     }
 }

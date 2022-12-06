@@ -31,6 +31,49 @@ public class ExampleUnitTest {
     @Mock
     Model model;
 
+    @Mock
+    Admin_Login adminView;
+
+    @Mock
+    admin_model adminModel;
+
+    @Test
+    public void adminPresenterEmptyUser(){
+        when(adminView.getEmail()).thenReturn("");
+        when(adminModel.isFound("")).thenReturn(false);
+        admin_presenter presenter = new admin_presenter(adminModel,adminView);
+        presenter.checkLogin();
+        verify(adminView,times(1)).displayError("Email is required");
+    }
+
+//    @Test
+//    public void adminPresenterShortPassword(){
+//        when(adminView.getEmail()).thenReturn("admin@utsc.ca");
+//        when(adminView.getPw()).thenReturn("12345");
+//        when(adminModel.isFound("admin@utsc.ca")).thenReturn(true);
+//        admin_presenter presenter = new admin_presenter(adminModel,adminView);
+//        presenter.checkLogin();
+//        verify(adminView,times(1)).displayError("Passwored too short");
+//    }
+////
+//    @Test
+//    public void adminPresenterEmptyPassword(){
+//        when(adminView.getPw()).thenReturn("");
+//        when(adminModel.isFound("")).thenReturn(true);
+//        admin_presenter presenter = new admin_presenter(adminModel,adminView);
+//        presenter.checkLogin();
+//        verify(adminView,times(1)).displayError("Password is required");
+//    }
+//
+//    @Test
+//    public void adminPresenterUnValidEmail(){
+//        when(adminView.getPw()).thenReturn("fake email");
+//        when(adminModel.isFound("")).thenReturn(false);
+//        admin_presenter presenter = new admin_presenter(adminModel,adminView);
+//        presenter.checkLogin();
+//        verify(adminView,times(1)).displayError("Please enter a valid email");
+//    }
+
     @Test
     public void testPresenterEmptyUser(){
         when(view.getUsername()).thenReturn("");
